@@ -1,5 +1,6 @@
 ﻿using Budget.Bll.DomainObjects;
 using Budget.Notifications;
+using Budget.ViewModels.Workers;
 using Prism.Commands;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
@@ -10,75 +11,14 @@ namespace Budget.ViewModels
 {
     class AddOrUpdateStorageViewModel : BindableBase, IInteractionRequestAware
     {
-        #region Внутренние классы.
-
-        interface ISaver
-        {
-            void Init(AddOrUpdateStorageViewModel viewModel);
-            void Save(AddOrUpdateStorageViewModel viewModel);
-        }
-
-        class AddSaver : ISaver
-        {
-            public void Init(AddOrUpdateStorageViewModel viewModel) { }
-
-            public void Save(AddOrUpdateStorageViewModel viewModel)
-            {
-                FinanceStorage storage = new FinanceStorage
-                {
-                    Name = viewModel.Name
-                };
-                viewModel.budgetObject.AddFinanceStorage(storage);
-            }
-        }
-
-        class UpdateSaver : ISaver
-        {
-            public void Init(AddOrUpdateStorageViewModel viewModel)
-            {
-                IUpdateObjectNotification<FinanceStorage> updateObject = viewModel.notification as IUpdateObjectNotification<FinanceStorage>;
-                viewModel.id = updateObject.Object.Id;
-                viewModel.Name = updateObject.Object.Name;
-            }
-
-            public void Save(AddOrUpdateStorageViewModel viewModel)
-            {
-                FinanceStorage storage = new FinanceStorage
-                {
-                    Id = viewModel.id,
-                    Name = viewModel.Name
-                };
-                viewModel.budgetObject.UpdateFinanceStorage(storage);
-            }
-        }
-
-        class SaverFactory
-        {
-            public static ISaver Create(INotification notification)
-            {
-                if (notification is IAddObjectNotification)
-                {
-                    return new AddSaver();
-                }
-                if (notification is IUpdateObjectNotification<FinanceStorage>)
-                {
-                    return new UpdateSaver();
-                }
-                throw new InvalidOperationException();
-            }
-        }
-
-        #endregion
-
-        readonly BudgetObject budgetObject;
-        private INotification notification;
-        private ISaver saver;
+        private IAddOrUpdateObjectNotification notification;
+        private IWorker worker;
 
         private string name;
 
         public AddOrUpdateStorageViewModel(BudgetObject budgetObject)
         {
-            this.budgetObject = budgetObject ?? throw new ArgumentNullException(nameof(budgetObject));
+            this.BudgetObject = budgetObject ?? throw new ArgumentNullException(nameof(budgetObject));
 
             OkCommand = new DelegateCommand(OkExecute);
             CancelCommand = new DelegateCommand(CancelExecute);
@@ -91,20 +31,26 @@ namespace Budget.ViewModels
             get { return notification; }
             set
             {
-                notification = value;
-                saver = SaverFactory.Create(notification);
-                saver.Init(this);
+                notification = value as IAddOrUpdateObjectNotification;
+                if (notification == null)
+                {
+                    throw new InvalidOperationException();
+                }
+                worker = notification.Worker;
+                worker.Init(this);
             }
         }
+
+        public BudgetObject BudgetObject { get; }
 
         public Action FinishInteraction { get; set; }
 
         #endregion
 
         /// <summary>
-        /// Идентификатор хранения, для обновления.
+        /// Идентификатор хранения, для обновления. В UI не используется.
         /// </summary>
-        private long id;
+        public long Id { get; set; }
 
         public string Name
         {
@@ -117,7 +63,7 @@ namespace Budget.ViewModels
 
         private void OkExecute()
         {
-            saver.Save(this);
+            worker.Save(this);
             FinishInteraction();
             ClearFields();
         }
@@ -131,7 +77,7 @@ namespace Budget.ViewModels
         private void ClearFields()
         {
             Name = string.Empty;
-            saver = null;
+            worker = null;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Budget.Bll.DomainObjects;
 using Budget.Notifications;
+using Budget.ViewModels.Workers;
 using Prism.Commands;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
@@ -22,8 +23,8 @@ namespace Budget.ViewModels
             UpdateStorageCommand = new DelegateCommand(UpdateStorageExecute);
             DeleteStorageCommand = new DelegateCommand(DeleteStorageExecute);
 
-            AddStorageNotificationRequest = new InteractionRequest<IAddObjectNotification>();
-            UpdateStorageNotificationRequest = new InteractionRequest<IUpdateObjectNotification<FinanceStorage>>();
+            AddStorageNotificationRequest = new InteractionRequest<IAddOrUpdateObjectNotification>();
+            UpdateStorageNotificationRequest = new InteractionRequest<IAddOrUpdateObjectNotification>();
 
             budgetObject.FinanceStoragesChanged += (s, e) => RaisePropertyChanged(nameof(Storages));
         }
@@ -39,19 +40,21 @@ namespace Budget.ViewModels
         public ICommand UpdateStorageCommand { get; }
         public ICommand DeleteStorageCommand { get; }
 
-        public InteractionRequest<IAddObjectNotification> AddStorageNotificationRequest { get; }
-        public InteractionRequest<IUpdateObjectNotification<FinanceStorage>> UpdateStorageNotificationRequest { get; }
+        public InteractionRequest<IAddOrUpdateObjectNotification> AddStorageNotificationRequest { get; }
+        public InteractionRequest<IAddOrUpdateObjectNotification> UpdateStorageNotificationRequest { get; }
 
         private void AddStorageExecute()
         {
-            AddStorageNotificationRequest.Raise(new AddObjectNotification("Добавление финансового хранения"));
+            AddStorageNotificationRequest
+                .Raise(new AddOrUpdateObjectNotification("Добавление финансового хранения", new AddWorker()));
         }
 
         private void UpdateStorageExecute()
         {
             if (SelectedStorage != null)
             {
-                UpdateStorageNotificationRequest.Raise(new UpdateObjectNotification<FinanceStorage>("Редактирование финансового хранения", SelectedStorage.Storage));
+                UpdateStorageNotificationRequest
+                    .Raise(new AddOrUpdateObjectNotification("Редактирование финансового хранения", new UpdateWorker(SelectedStorage.Storage)));
             }
         }
 
