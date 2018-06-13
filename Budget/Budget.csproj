@@ -78,14 +78,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Notifications\DeleteObjectNotification.cs" />
-    <Compile Include="Notifications\IDeleteObjectNotification.cs" />
-    <Compile Include="Notifications\AddOrUpdateObjectNotification.cs" />
-    <Compile Include="Notifications\IAddOrUpdateObjectNotification.cs" />
+    <Compile Include="Notifications\ObjectWorkerNotification.cs" />
+    <Compile Include="Notifications\IObjectWorkerNotification.cs" />
     <Compile Include="ViewModels\AddOrUpdateStorageViewModel.cs" />
+    <Compile Include="ViewModels\DeleteStorageViewModel.cs" />
+    <Compile Include="ViewModels\StorageViewModelBase.cs" />
+    <Compile Include="ViewModels\Workers\IStorageViewModel.cs" />
     <Compile Include="ViewModels\StoragesViewModel.cs" />
     <Compile Include="ViewModels\StorageViewModel.cs" />
     <Compile Include="ViewModels\Workers\AddWorker.cs" />
+    <Compile Include="ViewModels\Workers\DeleteWorker.cs" />
     <Compile Include="ViewModels\Workers\IWorker.cs" />
     <Compile Include="ViewModels\Workers\UpdateWorker.cs" />
     <Compile Include="Views\AddOrUpdateStorageView.xaml.cs">
@@ -93,6 +95,9 @@
     </Compile>
     <Compile Include="Views\ArticlesView.xaml.cs">
       <DependentUpon>ArticlesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DeleteStorageView.xaml.cs">
+      <DependentUpon>DeleteStorageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StoragesView.xaml.cs">
       <DependentUpon>StoragesView.xaml</DependentUpon>
@@ -102,6 +107,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ArticlesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DeleteStorageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

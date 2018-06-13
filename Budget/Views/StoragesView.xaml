@@ -20,6 +20,7 @@
                 </prism:PopupWindowAction.WindowContent>
             </prism:PopupWindowAction>
         </prism:InteractionRequestTrigger>
+        
         <prism:InteractionRequestTrigger
             SourceObject="{Binding UpdateStorageNotificationRequest}">
             <prism:PopupWindowAction
@@ -27,6 +28,17 @@
                 CenterOverAssociatedObject="True">
                 <prism:PopupWindowAction.WindowContent>
                     <local:AddOrUpdateStorageView />
+                </prism:PopupWindowAction.WindowContent>
+            </prism:PopupWindowAction>
+        </prism:InteractionRequestTrigger>
+
+        <prism:InteractionRequestTrigger
+            SourceObject="{Binding DeleteStorageNotificationRequest}">
+            <prism:PopupWindowAction
+                IsModal="True"
+                CenterOverAssociatedObject="True">
+                <prism:PopupWindowAction.WindowContent>
+                    <local:DeleteStorageView />
                 </prism:PopupWindowAction.WindowContent>
             </prism:PopupWindowAction>
         </prism:InteractionRequestTrigger>
@@ -57,11 +69,19 @@
                     Source="../Images/Delete.png" />
             </Button>
         </ToolBar>
-            
-        
+
+
         <DataGrid
             Grid.Row="1"
+            AutoGenerateColumns="False"
             ItemsSource="{Binding Storages}"
-            SelectedItem="{Binding SelectedStorage, Mode=TwoWay}" />
+            SelectedItem="{Binding SelectedStorage, Mode=TwoWay}">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Header="Наименование"
+                    Width="*"
+                    Binding="{Binding Name}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

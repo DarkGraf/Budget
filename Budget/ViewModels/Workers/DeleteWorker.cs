@@ -3,12 +3,12 @@ using System;
 
 namespace Budget.ViewModels.Workers
 {
-    class UpdateWorker : IWorker
+    class DeleteWorker : IWorker
     {
         readonly FinanceStorage storage;
         private long id;
 
-        public UpdateWorker(FinanceStorage storage)
+        public DeleteWorker(FinanceStorage storage)
         {
             this.storage = storage ?? throw new ArgumentNullException(nameof(storage));
         }
@@ -26,7 +26,7 @@ namespace Budget.ViewModels.Workers
                 Id = id,
                 Name = viewModel.Name
             };
-            viewModel.BudgetObject.UpdateFinanceStorage(storage);
+            viewModel.BudgetObject.DeleteFinanceStorage(storage);
             viewModel.Name = string.Empty;
         }
     }

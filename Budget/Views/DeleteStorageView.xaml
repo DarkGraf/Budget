@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="Budget.Views.DeleteStorageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Budget.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="Auto" />
+            <RowDefinition />
+            <RowDefinition 
+                Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition 
+                Width="Auto" />
+            <ColumnDefinition
+                Width="400" />
+        </Grid.ColumnDefinitions>
+
+        <Label
+            Grid.ColumnSpan="2"
+            Margin="5"
+            HorizontalAlignment="Center"
+            Content="{Binding Message}" />
+
+        <StackPanel
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center">
+            <Button
+                Margin="5"
+                MinWidth="69"
+                Command="{Binding OkCommand}"
+                IsDefault="True"
+                Content="Да" />
+            <Button
+                Margin="5"
+                MinWidth="69"
+                Command="{Binding CancelCommand}"
+                Content="Отмена" />
+        </StackPanel>
+    </Grid>
+</UserControl>

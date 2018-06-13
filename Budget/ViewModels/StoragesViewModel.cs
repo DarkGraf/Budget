@@ -23,8 +23,9 @@ namespace Budget.ViewModels
             UpdateStorageCommand = new DelegateCommand(UpdateStorageExecute);
             DeleteStorageCommand = new DelegateCommand(DeleteStorageExecute);
 
-            AddStorageNotificationRequest = new InteractionRequest<IAddOrUpdateObjectNotification>();
-            UpdateStorageNotificationRequest = new InteractionRequest<IAddOrUpdateObjectNotification>();
+            AddStorageNotificationRequest = new InteractionRequest<IObjectWorkerNotification>();
+            UpdateStorageNotificationRequest = new InteractionRequest<IObjectWorkerNotification>();
+            DeleteStorageNotificationRequest = new InteractionRequest<IObjectWorkerNotification>();
 
             budgetObject.FinanceStoragesChanged += (s, e) => RaisePropertyChanged(nameof(Storages));
         }
@@ -40,13 +41,14 @@ namespace Budget.ViewModels
         public ICommand UpdateStorageCommand { get; }
         public ICommand DeleteStorageCommand { get; }
 
-        public InteractionRequest<IAddOrUpdateObjectNotification> AddStorageNotificationRequest { get; }
-        public InteractionRequest<IAddOrUpdateObjectNotification> UpdateStorageNotificationRequest { get; }
+        public InteractionRequest<IObjectWorkerNotification> AddStorageNotificationRequest { get; }
+        public InteractionRequest<IObjectWorkerNotification> UpdateStorageNotificationRequest { get; }
+        public InteractionRequest<IObjectWorkerNotification> DeleteStorageNotificationRequest { get; }
 
         private void AddStorageExecute()
         {
             AddStorageNotificationRequest
-                .Raise(new AddOrUpdateObjectNotification("Добавление финансового хранения", new AddWorker()));
+                .Raise(new ObjectWorkerNotification("Добавление финансового хранения", new AddWorker()));
         }
 
         private void UpdateStorageExecute()
@@ -54,13 +56,17 @@ namespace Budget.ViewModels
             if (SelectedStorage != null)
             {
                 UpdateStorageNotificationRequest
-                    .Raise(new AddOrUpdateObjectNotification("Редактирование финансового хранения", new UpdateWorker(SelectedStorage.Storage)));
+                    .Raise(new ObjectWorkerNotification("Редактирование финансового хранения", new UpdateWorker(SelectedStorage.Storage)));
             }
         }
 
         private void DeleteStorageExecute()
         {
-            
+            if (SelectedStorage != null)
+            {
+                DeleteStorageNotificationRequest
+                    .Raise(new ObjectWorkerNotification("Удаление финансового хранения", new DeleteWorker(SelectedStorage.Storage)));
+            }
         }
     }
 }

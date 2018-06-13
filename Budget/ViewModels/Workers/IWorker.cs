@@ -2,7 +2,7 @@
 {
     interface IWorker
     {
-        void Init(AddOrUpdateStorageViewModel viewModel);
-        void Save(AddOrUpdateStorageViewModel viewModel);
+        void Init(IStorageViewModel viewModel);
+        void Save(IStorageViewModel viewModel);
     }
 }

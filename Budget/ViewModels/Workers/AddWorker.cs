@@ -4,15 +4,16 @@ namespace Budget.ViewModels.Workers
 {
     class AddWorker : IWorker
     {
-        public void Init(AddOrUpdateStorageViewModel viewModel) { }
+        public void Init(IStorageViewModel viewModel) { }
 
-        public void Save(AddOrUpdateStorageViewModel viewModel)
+        public void Save(IStorageViewModel viewModel)
         {
             FinanceStorage storage = new FinanceStorage
             {
                 Name = viewModel.Name
             };
             viewModel.BudgetObject.AddFinanceStorage(storage);
+            viewModel.Name = string.Empty;
         }
     }
 }

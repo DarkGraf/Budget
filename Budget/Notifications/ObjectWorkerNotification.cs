@@ -3,9 +3,9 @@ using Prism.Interactivity.InteractionRequest;
 
 namespace Budget.Notifications
 {
-    class AddOrUpdateObjectNotification : Notification, IAddOrUpdateObjectNotification
+    class ObjectWorkerNotification : Notification, IObjectWorkerNotification
     {
-        public AddOrUpdateObjectNotification(string title, IWorker worker)
+        public ObjectWorkerNotification(string title, IWorker worker)
         {
             Title = title;
             Worker = worker;

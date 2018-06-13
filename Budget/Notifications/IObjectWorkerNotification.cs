@@ -3,7 +3,7 @@ using Prism.Interactivity.InteractionRequest;
 
 namespace Budget.Notifications
 {
-    interface IAddOrUpdateObjectNotification : INotification
+    interface IObjectWorkerNotification : INotification
     {
         IWorker Worker { get; }
     }
