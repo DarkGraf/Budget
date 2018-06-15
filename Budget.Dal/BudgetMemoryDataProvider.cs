@@ -20,6 +20,15 @@ namespace Budget.Dal
             new FinanceStorage { Id = 9, Name = "Банк 8"},
         };
 
+        List<FinanceArticle> financeArticles = new List<FinanceArticle>
+        {
+            new FinanceArticle { Id = 1, Name = "Aaa" },
+            new FinanceArticle { Id = 2, Name = "Bbb" },
+            new FinanceArticle { Id = 3, Name = "Ccc" },
+            new FinanceArticle { Id = 4, Name = "Ddd" },
+            new FinanceArticle { Id = 5, Name = "Eee" }
+        };
+
         #region IBudgetDataProvider
 
         public void AddFinanceStorage(string storageName)
@@ -43,10 +52,37 @@ namespace Budget.Dal
             return financeStorages.ToArray();
         }
 
-        public void UpdateFinanceStorage(long id, string name)
+        public void UpdateFinanceStorage(long id, string storageName)
         {
             FinanceStorage storage = financeStorages.First(s => s.Id == id);
-            storage.Name = name;
+            storage.Name = storageName;
+        }
+
+        public void AddFinanceArticle(string articleName)
+        {
+            FinanceArticle article = new FinanceArticle
+            {
+                Id = financeArticles.Select(s => s.Id).Max() + 1,
+                Name = articleName
+            };
+            financeArticles.Add(article);
+        }
+
+        public void DeleteFinanceArticle(long id)
+        {
+            FinanceArticle article = financeArticles.First(s => s.Id == id);
+            financeArticles.Remove(article);
+        }
+
+        public FinanceArticle[] GetFinanceArticles()
+        {
+            return financeArticles.ToArray();
+        }
+
+        public void UpdateFinanceArticle(long id, string articleName)
+        {
+            FinanceArticle article = financeArticles.First(s => s.Id == id);
+            article.Name = articleName;
         }
 
         #endregion

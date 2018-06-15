@@ -35,5 +35,30 @@ namespace Budget.Bll.DomainObjects
         }
 
         public event EventHandler FinanceStoragesChanged;
+
+        public FinanceArticle[] GetFinanceArticle()
+        {
+            return dataProvider.GetFinanceArticles();
+        }
+
+        public void AddFinanceArticle(FinanceArticle article)
+        {
+            dataProvider.AddFinanceArticle(article.Name);
+            FinanceArticleChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void UpdateFinanceArticle(FinanceArticle article)
+        {
+            dataProvider.UpdateFinanceArticle(article.Id, article.Name);
+            FinanceArticleChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void DeleteFinanceArticle(FinanceArticle article)
+        {
+            dataProvider.DeleteFinanceArticle(article.Id);
+            FinanceArticleChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public event EventHandler FinanceArticleChanged;
     }
 }

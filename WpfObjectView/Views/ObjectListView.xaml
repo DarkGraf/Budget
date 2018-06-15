@@ -34,7 +34,7 @@
                 IsModal="True"
                 CenterOverAssociatedObject="True">
                 <prism:PopupWindowAction.WindowContent>
-                    <local:AddObjectView />
+                    <local:AddOrEditObjectView />
                 </prism:PopupWindowAction.WindowContent>
             </prism:PopupWindowAction>
         </prism:InteractionRequestTrigger>
@@ -45,7 +45,7 @@
                 IsModal="True"
                 CenterOverAssociatedObject="True">
                 <prism:PopupWindowAction.WindowContent>
-                    <local:EditObjectView />
+                    <local:AddOrEditObjectView />
                 </prism:PopupWindowAction.WindowContent>
             </prism:PopupWindowAction>
         </prism:InteractionRequestTrigger>
@@ -54,11 +54,7 @@
             SourceObject="{Binding DeleteObjectNotificationRequest}">
             <prism:PopupWindowAction
                 IsModal="True"
-                CenterOverAssociatedObject="True">
-                <prism:PopupWindowAction.WindowContent>
-                    <local:DeleteObjectView />
-                </prism:PopupWindowAction.WindowContent>
-            </prism:PopupWindowAction>
+                CenterOverAssociatedObject="True" />
         </prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
 

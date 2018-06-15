@@ -59,14 +59,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\SmartListItemAttribute.cs" />
+    <Compile Include="Attributes\SmartPropertyAttributeAttribute.cs" />
     <Compile Include="Behaviors\DataGridSmartColumnsBehavior.cs" />
-    <Compile Include="Notifications\AddObjectNotification.cs" />
-    <Compile Include="Notifications\DeleteObjectNotification.cs.cs" />
-    <Compile Include="Notifications\IAddObjectNotification.cs" />
-    <Compile Include="Notifications\IEditObjectNotification.cs" />
-    <Compile Include="Notifications\EditObjectNotification.cs" />
-    <Compile Include="Notifications\IDeleteObjectNotification.cs" />
+    <Compile Include="Notifications\ObjectNotification.cs" />
+    <Compile Include="Notifications\IObjectNotification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -80,22 +76,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\AddObjectViewModel.cs" />
+    <Compile Include="ViewModels\AddOrEditObjectViewModel.cs" />
     <Compile Include="ViewModels\ObjectListViewModel.cs" />
-    <Compile Include="Views\AddObjectView.xaml.cs">
-      <DependentUpon>AddObjectView.xaml</DependentUpon>
+    <Compile Include="Views\AddOrEditObjectView.xaml.cs">
+      <DependentUpon>AddOrEditObjectView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DeleteObjectView.xaml.cs">
-      <DependentUpon>DeleteObjectView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EditObjectView.xaml.cs">
-      <DependentUpon>EditObjectView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Views\ObjectDetailView.cs" />
     <Compile Include="Views\ObjectListView.xaml.cs">
       <DependentUpon>ObjectListView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ObjectDetailView.xaml.cs">
-      <DependentUpon>ObjectDetailView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -109,23 +97,11 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Page Include="Views\AddObjectView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\DeleteObjectView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\EditObjectView.xaml">
+    <Page Include="Views\AddOrEditObjectView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ObjectListView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ObjectDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

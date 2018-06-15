@@ -1,26 +1,39 @@
-﻿using System;
+﻿using Budget.Bll.DomainObjects;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using WpfObjectView.ViewModels;
 
 namespace Budget.ViewModels
 {
     class ArticlesViewModel : ObjectListViewModel<ArticleViewModel>
     {
-        public ArticlesViewModel()
-        {
+        readonly BudgetObject budgetObject;
 
+        public ArticlesViewModel(BudgetObject budgetObject)
+        {
+            this.budgetObject = budgetObject ?? throw new ArgumentNullException(nameof(budgetObject));
+            budgetObject.FinanceArticleChanged += (s, e) => RaisePropertyChanged(nameof(Items));
         }
 
         protected override IEnumerable<ArticleViewModel> GetItems()
         {
-            return new List<ArticleViewModel>
-            {
-                new ArticleViewModel { Name = "Aaa" },
-                new ArticleViewModel { Name = "Bbb" },
-                new ArticleViewModel { Name = "Ccc" },
-                new ArticleViewModel { Name = "Ddd" },
-                new ArticleViewModel { Name = "Eee" }
-            };
+            return budgetObject.GetFinanceArticle().Select(a => new ArticleViewModel(a));
+        }
+
+        protected override void AddSaveItem(ArticleViewModel item)
+        {
+            budgetObject.AddFinanceArticle(item.Article);
+        }
+
+        protected override void EditSaveItem(ArticleViewModel item)
+        {
+            budgetObject.UpdateFinanceArticle(item.Article);
+        }
+
+        protected override void DeleteSaveItem(ArticleViewModel item)
+        {
+            budgetObject.DeleteFinanceArticle(item.Article);
         }
     }
 }

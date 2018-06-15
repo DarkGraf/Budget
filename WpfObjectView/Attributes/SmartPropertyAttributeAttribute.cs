@@ -3,7 +3,7 @@
 namespace WpfObjectView.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class SmartListItemAttribute : Attribute
+    public class SmartPropertyAttributeAttribute : Attribute
     {
         public string Header { get; set; }
     }

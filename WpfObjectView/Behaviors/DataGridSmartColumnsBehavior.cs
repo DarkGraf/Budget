@@ -94,10 +94,10 @@ namespace WpfObjectView.Behaviors
 
             foreach (var info in infos)
             {
-                var attr = info.GetCustomAttribute<SmartListItemAttribute>();
+                var attr = info.GetCustomAttribute<SmartPropertyAttributeAttribute>();
 
                 DataGridTextColumn column = new DataGridTextColumn();
-                column.Header = attr.Header ?? info.Name;
+                column.Header = attr?.Header ?? info.Name;
                 column.Binding = new Binding(info.Name);
                 column.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
                 AssociatedObject.Columns.Add(column);

@@ -3,11 +3,11 @@
 namespace WpfObjectView.Views
 {
     /// <summary>
-    /// Interaction logic for EditItemView.xaml
+    /// Interaction logic for AddItemView.xaml
     /// </summary>
-    public partial class EditObjectView : UserControl
+    public partial class AddOrEditObjectView : UserControl
     {
-        public EditObjectView()
+        public AddOrEditObjectView()
         {
             InitializeComponent();
         }
