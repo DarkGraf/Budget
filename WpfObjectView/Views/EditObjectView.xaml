@@ -6,5 +6,5 @@
              xmlns:local="clr-namespace:WpfObjectView.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <local:ObjectView />
+    <local:ObjectDetailView />
 </UserControl>

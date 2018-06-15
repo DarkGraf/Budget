@@ -80,6 +80,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\AddObjectViewModel.cs" />
     <Compile Include="ViewModels\ObjectListViewModel.cs" />
     <Compile Include="Views\AddObjectView.xaml.cs">
       <DependentUpon>AddObjectView.xaml</DependentUpon>
