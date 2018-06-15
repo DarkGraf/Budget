@@ -81,8 +81,10 @@
     <Compile Include="Notifications\ObjectWorkerNotification.cs" />
     <Compile Include="Notifications\IObjectWorkerNotification.cs" />
     <Compile Include="ViewModels\AddOrUpdateStorageViewModel.cs" />
+    <Compile Include="ViewModels\ArticlesViewModel.cs" />
     <Compile Include="ViewModels\DeleteStorageViewModel.cs" />
     <Compile Include="ViewModels\StorageViewModelBase.cs" />
+    <Compile Include="ViewModels\ArticleViewModel.cs" />
     <Compile Include="ViewModels\Workers\IStorageViewModel.cs" />
     <Compile Include="ViewModels\StoragesViewModel.cs" />
     <Compile Include="ViewModels\StorageViewModel.cs" />
@@ -179,6 +181,10 @@
     <ProjectReference Include="..\Budget.Dal\Budget.Dal.csproj">
       <Project>{269ED39A-55FA-4B1E-AD25-422827DDDE24}</Project>
       <Name>Budget.Dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WpfObjectView\WpfObjectView.csproj">
+      <Project>{0407e936-aad6-4d97-a274-01497dc30a96}</Project>
+      <Name>WpfObjectView</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

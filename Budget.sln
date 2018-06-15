@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budget.Bll", "Budget.Bll\Bu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budget.Dal", "Budget.Dal\Budget.Dal.csproj", "{269ED39A-55FA-4B1E-AD25-422827DDDE24}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfObjectView", "WpfObjectView\WpfObjectView.csproj", "{0407E936-AAD6-4D97-A274-01497DC30A96}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{269ED39A-55FA-4B1E-AD25-422827DDDE24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{269ED39A-55FA-4B1E-AD25-422827DDDE24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{269ED39A-55FA-4B1E-AD25-422827DDDE24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0407E936-AAD6-4D97-A274-01497DC30A96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0407E936-AAD6-4D97-A274-01497DC30A96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0407E936-AAD6-4D97-A274-01497DC30A96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0407E936-AAD6-4D97-A274-01497DC30A96}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
