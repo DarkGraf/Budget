@@ -1,72 +1,39 @@
 ﻿using Budget.Bll.DomainObjects;
-using Budget.Notifications;
-using Budget.ViewModels.Workers;
-using Prism.Commands;
-using Prism.Interactivity.InteractionRequest;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Input;
+using WpfObjectView.ViewModels;
 
 namespace Budget.ViewModels
 {
-    class StoragesViewModel : BindableBase
+    class StoragesViewModel : ObjectListViewModel<StorageViewModel>
     {
         readonly BudgetObject budgetObject;
 
         public StoragesViewModel(BudgetObject budgetObject)
         {
             this.budgetObject = budgetObject ?? throw new ArgumentNullException(nameof(budgetObject));
-
-            AddStorageCommand = new DelegateCommand(AddStorageExecute);
-            UpdateStorageCommand = new DelegateCommand(UpdateStorageExecute);
-            DeleteStorageCommand = new DelegateCommand(DeleteStorageExecute);
-
-            AddStorageNotificationRequest = new InteractionRequest<IObjectWorkerNotification>();
-            UpdateStorageNotificationRequest = new InteractionRequest<IObjectWorkerNotification>();
-            DeleteStorageNotificationRequest = new InteractionRequest<IObjectWorkerNotification>();
-
-            budgetObject.FinanceStoragesChanged += (s, e) => RaisePropertyChanged(nameof(Storages));
+            budgetObject.FinanceStoragesChanged += (s, e) => RaisePropertyChanged(nameof(Items));
         }
 
-        public IEnumerable<StorageViewModel> Storages
+        protected override IEnumerable<StorageViewModel> GetItems()
         {
-            get { return budgetObject.GetFinanceStorage().Select(s => new StorageViewModel(s)); }
+            return budgetObject.GetFinanceStorage().Select(s => new StorageViewModel(s));
         }
 
-        public StorageViewModel SelectedStorage { get; set; }
-
-        public ICommand AddStorageCommand { get; }
-        public ICommand UpdateStorageCommand { get; }
-        public ICommand DeleteStorageCommand { get; }
-
-        public InteractionRequest<IObjectWorkerNotification> AddStorageNotificationRequest { get; }
-        public InteractionRequest<IObjectWorkerNotification> UpdateStorageNotificationRequest { get; }
-        public InteractionRequest<IObjectWorkerNotification> DeleteStorageNotificationRequest { get; }
-
-        private void AddStorageExecute()
+        protected override void AddSaveItem(StorageViewModel item)
         {
-            AddStorageNotificationRequest
-                .Raise(new ObjectWorkerNotification("Добавление финансового хранения", new AddWorker()));
+            budgetObject.AddFinanceStorage(item.Storage);
         }
 
-        private void UpdateStorageExecute()
+        protected override void EditSaveItem(StorageViewModel item)
         {
-            if (SelectedStorage != null)
-            {
-                UpdateStorageNotificationRequest
-                    .Raise(new ObjectWorkerNotification("Редактирование финансового хранения", new UpdateWorker(SelectedStorage.Storage)));
-            }
+            budgetObject.UpdateFinanceStorage(item.Storage);
         }
 
-        private void DeleteStorageExecute()
+        protected override void DeleteSaveItem(StorageViewModel item)
         {
-            if (SelectedStorage != null)
-            {
-                DeleteStorageNotificationRequest
-                    .Raise(new ObjectWorkerNotification("Удаление финансового хранения", new DeleteWorker(SelectedStorage.Storage)));
-            }
+            budgetObject.DeleteFinanceStorage(item.Storage);
         }
     }
 }

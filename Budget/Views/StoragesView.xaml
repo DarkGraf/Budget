@@ -4,84 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Budget.Views"
+             xmlns:objectView="clr-namespace:WpfObjectView.Views;assembly=WpfObjectView"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <i:Interaction.Triggers>
-        <prism:InteractionRequestTrigger
-            SourceObject="{Binding AddStorageNotificationRequest}">
-            <prism:PopupWindowAction
-                IsModal="True"
-                CenterOverAssociatedObject="True">
-                <prism:PopupWindowAction.WindowContent>
-                    <local:AddOrUpdateStorageView />
-                </prism:PopupWindowAction.WindowContent>
-            </prism:PopupWindowAction>
-        </prism:InteractionRequestTrigger>
-        
-        <prism:InteractionRequestTrigger
-            SourceObject="{Binding UpdateStorageNotificationRequest}">
-            <prism:PopupWindowAction
-                IsModal="True"
-                CenterOverAssociatedObject="True">
-                <prism:PopupWindowAction.WindowContent>
-                    <local:AddOrUpdateStorageView />
-                </prism:PopupWindowAction.WindowContent>
-            </prism:PopupWindowAction>
-        </prism:InteractionRequestTrigger>
-
-        <prism:InteractionRequestTrigger
-            SourceObject="{Binding DeleteStorageNotificationRequest}">
-            <prism:PopupWindowAction
-                IsModal="True"
-                CenterOverAssociatedObject="True">
-                <prism:PopupWindowAction.WindowContent>
-                    <local:DeleteStorageView />
-                </prism:PopupWindowAction.WindowContent>
-            </prism:PopupWindowAction>
-        </prism:InteractionRequestTrigger>
-    </i:Interaction.Triggers>
-
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition 
-                Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        
-        <ToolBar
-            RenderOptions.BitmapScalingMode="NearestNeighbor">
-            <Button
-                Command="{Binding AddStorageCommand}">
-                <Image 
-                    Source="../Images/Add.png" />
-            </Button>
-            <Button
-                Command="{Binding UpdateStorageCommand}">
-                <Image 
-                    Source="../Images/Edit.png" />
-            </Button>
-            <Button
-                Command="{Binding DeleteStorageCommand}">
-                <Image 
-                    Source="../Images/Delete.png" />
-            </Button>
-        </ToolBar>
-
-
-        <DataGrid
-            Grid.Row="1"
-            AutoGenerateColumns="False"
-            ItemsSource="{Binding Storages}"
-            SelectedItem="{Binding SelectedStorage, Mode=TwoWay}">
-            <DataGrid.Columns>
-                <DataGridTextColumn
-                    Header="Наименование"
-                    Width="*"
-                    Binding="{Binding Name}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-    </Grid>
+    <objectView:ObjectListView />
 </UserControl>
