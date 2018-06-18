@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,14 +9,14 @@ using WpfObjectView.Attributes;
 
 namespace WpfObjectView.Views
 {
-    public class ObjectDetailView : ContentControl
+    public class ObjectDetailControl : ContentControl
     {
         #region UpdateFlagProperty
 
         public static readonly DependencyProperty UpdateFlagProperty = DependencyProperty.Register(
             "UpdateFlag",
             typeof(bool),
-            typeof(ObjectDetailView),
+            typeof(ObjectDetailControl),
             new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, UpdateFlagPropertyChanged));
 
         public bool UpdateFlag
@@ -26,7 +27,7 @@ namespace WpfObjectView.Views
 
         private static void UpdateFlagPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is ObjectDetailView view && view.UpdateFlag)
+            if (d is ObjectDetailControl view && view.UpdateFlag)
             {
                 view.Update();
                 view.UpdateFlag = false;
@@ -38,7 +39,7 @@ namespace WpfObjectView.Views
         readonly Grid mainGrid;
         readonly List<BindingExpressionBase> bindingExpressions;
 
-        public ObjectDetailView()
+        public ObjectDetailControl()
         {
             Content = mainGrid = new Grid();
             bindingExpressions = new List<BindingExpressionBase>();
@@ -86,15 +87,20 @@ namespace WpfObjectView.Views
 
             foreach (PropertyInfo info in infos)
             {
+                if (!(info.GetCustomAttribute<VisibleInViewAttribute>()?.VisibleInList ?? true))
+                {
+                    continue;
+                }
+
                 mainGrid.RowDefinitions.Add(new RowDefinition
                 {
                     Height = GridLength.Auto
                 });
 
-                var attr = info.GetCustomAttribute<SmartPropertyAttributeAttribute>();
+                var displayAttr = info.GetCustomAttribute<DisplayAttribute>();
 
                 Label label = new Label();
-                label.Content = attr?.Header ?? info.Name;
+                label.Content = displayAttr?.Name ?? info.Name;
 
                 Grid.SetRow(label, mainGrid.RowDefinitions.Count - 1);
                 mainGrid.Children.Add(label);
@@ -104,14 +110,26 @@ namespace WpfObjectView.Views
                 binding.Mode = info.CanWrite ? BindingMode.TwoWay : BindingMode.OneWay;
                 binding.UpdateSourceTrigger = UpdateSourceTrigger.Explicit;
 
-                TextBox textBox = new TextBox();
-                textBox.Margin = new Thickness(5);
-                textBox.IsReadOnly = !info.CanWrite;
-                bindingExpressions.Add(textBox.SetBinding(TextBox.TextProperty, binding));
+                Control control;
+                if (info.PropertyType.BaseType == typeof(Enum))
+                {
+                    ComboBox comboBox = new ComboBox();
+                    comboBox.ItemsSource = Enum.GetValues(info.PropertyType);
+                    bindingExpressions.Add(comboBox.SetBinding(ComboBox.SelectedItemProperty, binding));
+                    control = comboBox;
+                }
+                else
+                {
+                    TextBox textBox = new TextBox();
+                    textBox.IsReadOnly = !info.CanWrite;
+                    bindingExpressions.Add(textBox.SetBinding(TextBox.TextProperty, binding));
+                    control = textBox;
+                }
 
-                Grid.SetColumn(textBox, 1);
-                Grid.SetRow(textBox, mainGrid.RowDefinitions.Count - 1);
-                mainGrid.Children.Add(textBox);
+                control.Margin = new Thickness(5);
+                Grid.SetColumn(control, 1);
+                Grid.SetRow(control, mainGrid.RowDefinitions.Count - 1);
+                mainGrid.Children.Add(control);
             }
         }
     }

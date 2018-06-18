@@ -3,9 +3,9 @@ using Prism.Interactivity.InteractionRequest;
 
 namespace WpfObjectView.Notifications
 {
-    class ObjectNotification : Notification, IObjectNotification
+    class ObjectConfirmation : Notification, IObjectConfirmation
     {
-        public ObjectNotification(string title, object item, Action saveAction)
+        public ObjectConfirmation(string title, object item, Action saveAction)
         {
             Title = title;
             Item = item;
@@ -15,5 +15,7 @@ namespace WpfObjectView.Notifications
         public object Item { get; }
 
         public Action SaveAction { get; }
+
+        public bool Confirmed { get; set; }
     }
 }

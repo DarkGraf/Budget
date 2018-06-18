@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -94,10 +95,15 @@ namespace WpfObjectView.Behaviors
 
             foreach (var info in infos)
             {
-                var attr = info.GetCustomAttribute<SmartPropertyAttributeAttribute>();
+                if (!(info.GetCustomAttribute<VisibleInViewAttribute>()?.VisibleInList ?? true))
+                {
+                    continue;
+                }
+
+                var displayAttr = info.GetCustomAttribute<DisplayAttribute>();
 
                 DataGridTextColumn column = new DataGridTextColumn();
-                column.Header = attr?.Header ?? info.Name;
+                column.Header = displayAttr?.Name ?? info.Name;
                 column.Binding = new Binding(info.Name);
                 column.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
                 AssociatedObject.Columns.Add(column);

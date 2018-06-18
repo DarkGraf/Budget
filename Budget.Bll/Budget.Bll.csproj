@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainObjects\BudgetObject.cs" />
+    <Compile Include="DomainObjects\Enums\FinanceArticleType.cs" />
     <Compile Include="DomainObjects\FinanceArticle.cs" />
     <Compile Include="DomainObjects\FinanceStorage.cs" />
     <Compile Include="IBudgetDataProvider.cs" />

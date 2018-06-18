@@ -34,7 +34,7 @@
                 IsModal="True"
                 CenterOverAssociatedObject="True">
                 <prism:PopupWindowAction.WindowContent>
-                    <local:AddOrEditObjectView />
+                    <local:ObjectView />
                 </prism:PopupWindowAction.WindowContent>
             </prism:PopupWindowAction>
         </prism:InteractionRequestTrigger>
@@ -45,7 +45,7 @@
                 IsModal="True"
                 CenterOverAssociatedObject="True">
                 <prism:PopupWindowAction.WindowContent>
-                    <local:AddOrEditObjectView />
+                    <local:ObjectView />
                 </prism:PopupWindowAction.WindowContent>
             </prism:PopupWindowAction>
         </prism:InteractionRequestTrigger>
@@ -54,7 +54,11 @@
             SourceObject="{Binding DeleteObjectNotificationRequest}">
             <prism:PopupWindowAction
                 IsModal="True"
-                CenterOverAssociatedObject="True" />
+                CenterOverAssociatedObject="True">
+                <prism:PopupWindowAction.WindowContent>
+                    <local:QuestionView />
+                </prism:PopupWindowAction.WindowContent>
+            </prism:PopupWindowAction>
         </prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
 
@@ -91,6 +95,7 @@
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             CanUserDeleteRows="False"
+            SelectionMode="Single"
             IsReadOnly="True"
             ItemsSource="{Binding Items}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">

@@ -18,13 +18,13 @@ namespace Budget.Bll.DomainObjects
 
         public void AddFinanceStorage(FinanceStorage storage)
         {
-            dataProvider.AddFinanceStorage(storage.Name);
+            dataProvider.AddFinanceStorage(storage);
             FinanceStoragesChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void UpdateFinanceStorage(FinanceStorage storage)
         {
-            dataProvider.UpdateFinanceStorage(storage.Id, storage.Name);
+            dataProvider.UpdateFinanceStorage(storage);
             FinanceStoragesChanged?.Invoke(this, EventArgs.Empty);
         }
 
@@ -43,13 +43,13 @@ namespace Budget.Bll.DomainObjects
 
         public void AddFinanceArticle(FinanceArticle article)
         {
-            dataProvider.AddFinanceArticle(article.Name);
+            dataProvider.AddFinanceArticle(article);
             FinanceArticleChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void UpdateFinanceArticle(FinanceArticle article)
         {
-            dataProvider.UpdateFinanceArticle(article.Id, article.Name);
+            dataProvider.UpdateFinanceArticle(article);
             FinanceArticleChanged?.Invoke(this, EventArgs.Empty);
         }
 

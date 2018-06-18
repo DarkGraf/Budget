@@ -5,9 +5,9 @@ namespace WpfObjectView.Views
     /// <summary>
     /// Interaction logic for AddItemView.xaml
     /// </summary>
-    public partial class AddOrEditObjectView : UserControl
+    public partial class ObjectView : UserControl
     {
-        public AddOrEditObjectView()
+        public ObjectView()
         {
             InitializeComponent();
         }

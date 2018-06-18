@@ -19,8 +19,8 @@ namespace WpfObjectView.ViewModels
             EditItemCommand = new DelegateCommand(EditItemExecute);
             DeleteItemCommand = new DelegateCommand(DeleteItemExecute);
 
-            AddObjectNotificationRequest = new InteractionRequest<IObjectNotification>();
-            EditObjectNotificationRequest = new InteractionRequest<IObjectNotification>();
+            AddObjectNotificationRequest = new InteractionRequest<IObjectConfirmation>();
+            EditObjectNotificationRequest = new InteractionRequest<IObjectConfirmation>();
             DeleteObjectNotificationRequest = new InteractionRequest<IConfirmation>();
         }
 
@@ -39,8 +39,8 @@ namespace WpfObjectView.ViewModels
         public ICommand EditItemCommand { get; }
         public ICommand DeleteItemCommand { get; }
 
-        public InteractionRequest<IObjectNotification> AddObjectNotificationRequest { get; }
-        public InteractionRequest<IObjectNotification> EditObjectNotificationRequest { get; }
+        public InteractionRequest<IObjectConfirmation> AddObjectNotificationRequest { get; }
+        public InteractionRequest<IObjectConfirmation> EditObjectNotificationRequest { get; }
         public InteractionRequest<IConfirmation> DeleteObjectNotificationRequest { get; }
 
         protected abstract IEnumerable<T> GetItems();
@@ -48,14 +48,14 @@ namespace WpfObjectView.ViewModels
         private void AddItemExecute()
         {
             T item = new T();
-            AddObjectNotificationRequest.Raise(new ObjectNotification("Добавление", item, () => AddSaveItem(item)));
+            AddObjectNotificationRequest.Raise(new ObjectConfirmation("Добавление", item, () => AddSaveItem(item)));
         }
 
         private void EditItemExecute()
         {
             if (SelectedItem != null)
             {
-                EditObjectNotificationRequest.Raise(new ObjectNotification("Редактирование", SelectedItem, () => EditSaveItem(SelectedItem)));
+                EditObjectNotificationRequest.Raise(new ObjectConfirmation("Редактирование", SelectedItem, () => EditSaveItem(SelectedItem)));
             }
         }
 

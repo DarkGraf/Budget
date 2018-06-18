@@ -3,7 +3,7 @@ using System;
 
 namespace WpfObjectView.Notifications
 {
-    public interface IObjectNotification : INotification
+    public interface IObjectConfirmation : IConfirmation
     {
         object Item { get; }
         Action SaveAction { get; }

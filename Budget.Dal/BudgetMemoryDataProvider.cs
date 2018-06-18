@@ -1,5 +1,6 @@
 ﻿using Budget.Bll;
 using Budget.Bll.DomainObjects;
+using Budget.Bll.DomainObjects.Enums;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,22 +23,20 @@ namespace Budget.Dal
 
         List<FinanceArticle> financeArticles = new List<FinanceArticle>
         {
-            new FinanceArticle { Id = 1, Name = "Aaa" },
-            new FinanceArticle { Id = 2, Name = "Bbb" },
-            new FinanceArticle { Id = 3, Name = "Ccc" },
-            new FinanceArticle { Id = 4, Name = "Ddd" },
-            new FinanceArticle { Id = 5, Name = "Eee" }
+            new FinanceArticle { Id = 1, Name = "Aaa", Type = FinanceArticleType.Income },
+            new FinanceArticle { Id = 2, Name = "Bbb", Type = FinanceArticleType.Cost },
+            new FinanceArticle { Id = 3, Name = "Ccc", Type = FinanceArticleType.Income },
+            new FinanceArticle { Id = 4, Name = "Ddd", Type = FinanceArticleType.Cost },
+            new FinanceArticle { Id = 5, Name = "Eee", Type = FinanceArticleType.Income }
         };
 
         #region IBudgetDataProvider
 
-        public void AddFinanceStorage(string storageName)
+        #region Storage
+
+        public void AddFinanceStorage(FinanceStorage storage)
         {
-            FinanceStorage storage = new FinanceStorage
-            {
-                Id = financeStorages.Select(s => s.Id).Max() + 1,
-                Name = storageName
-            };
+            storage.Id = financeStorages.Select(s => s.Id).Max() + 1;
             financeStorages.Add(storage);
         }
 
@@ -52,19 +51,22 @@ namespace Budget.Dal
             return financeStorages.ToArray();
         }
 
-        public void UpdateFinanceStorage(long id, string storageName)
+        public void UpdateFinanceStorage(FinanceStorage storage)
         {
-            FinanceStorage storage = financeStorages.First(s => s.Id == id);
-            storage.Name = storageName;
+            FinanceStorage storageForUpdate = financeStorages.First(s => s.Id == storage.Id);
+            if (storage != storageForUpdate)
+            {
+                storage.Name = storageForUpdate.Name;
+            }
         }
 
-        public void AddFinanceArticle(string articleName)
+        #endregion
+
+        #region Article
+
+        public void AddFinanceArticle(FinanceArticle article)
         {
-            FinanceArticle article = new FinanceArticle
-            {
-                Id = financeArticles.Select(s => s.Id).Max() + 1,
-                Name = articleName
-            };
+            article.Id = financeArticles.Select(s => s.Id).Max() + 1;
             financeArticles.Add(article);
         }
 
@@ -79,11 +81,17 @@ namespace Budget.Dal
             return financeArticles.ToArray();
         }
 
-        public void UpdateFinanceArticle(long id, string articleName)
+        public void UpdateFinanceArticle(FinanceArticle article)
         {
-            FinanceArticle article = financeArticles.First(s => s.Id == id);
-            article.Name = articleName;
+            FinanceArticle articleForUpdate = financeArticles.First(s => s.Id == article.Id);
+            if (article != articleForUpdate)
+            {
+                article.Name = articleForUpdate.Name;
+                article.Type = articleForUpdate.Type;
+            }
         }
+
+        #endregion
 
         #endregion
     }
