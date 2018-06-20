@@ -34,7 +34,7 @@
                 IsModal="True"
                 CenterOverAssociatedObject="True">
                 <prism:PopupWindowAction.WindowContent>
-                    <local:ObjectView />
+                    <local:ObjectDetailView />
                 </prism:PopupWindowAction.WindowContent>
             </prism:PopupWindowAction>
         </prism:InteractionRequestTrigger>
@@ -45,7 +45,7 @@
                 IsModal="True"
                 CenterOverAssociatedObject="True">
                 <prism:PopupWindowAction.WindowContent>
-                    <local:ObjectView />
+                    <local:ObjectDetailView />
                 </prism:PopupWindowAction.WindowContent>
             </prism:PopupWindowAction>
         </prism:InteractionRequestTrigger>

@@ -60,6 +60,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\DataSourceAttribute.cs" />
     <Compile Include="Attributes\VisibleInViewAttribute.cs" />
     <Compile Include="Behaviors\DataGridSmartColumnsBehavior.cs" />
     <Compile Include="Notifications\ObjectConfirmation.cs" />
@@ -78,11 +79,15 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModels\ConfirmationViewModelBase.cs" />
-    <Compile Include="ViewModels\ObjectViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IObject.cs" />
+    <Compile Include="ViewModels\Interfaces\IObjectsEnumerable.cs" />
+    <Compile Include="ViewModels\ObjectDetailViewModel.cs" />
     <Compile Include="ViewModels\ObjectListViewModel.cs" />
+    <Compile Include="ViewModels\ObjectViewModelBase.cs" />
     <Compile Include="ViewModels\QuestionViewModel.cs" />
-    <Compile Include="Views\ObjectView.xaml.cs">
-      <DependentUpon>ObjectView.xaml</DependentUpon>
+    <Compile Include="Views\Controls\ControlContainer.cs" />
+    <Compile Include="Views\ObjectDetailView.xaml.cs">
+      <DependentUpon>ObjectDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ObjectDetailControl.cs" />
     <Compile Include="Views\ObjectListView.xaml.cs">
@@ -101,9 +106,11 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Page Include="Views\ObjectView.xaml">
+    <Resource Include="Images\Refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Views\ObjectDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

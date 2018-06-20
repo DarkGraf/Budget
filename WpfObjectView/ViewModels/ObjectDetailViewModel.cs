@@ -2,7 +2,7 @@
 
 namespace WpfObjectView.ViewModels
 {
-    class ObjectViewModel : ConfirmationViewModelBase<IObjectConfirmation>
+    class ObjectDetailViewModel : ConfirmationViewModelBase<IObjectConfirmation>
     {
         private object item;
 

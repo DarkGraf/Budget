@@ -13,5 +13,10 @@ namespace Budget.Bll
         void AddFinanceArticle(FinanceArticle article);
         void UpdateFinanceArticle(FinanceArticle article);
         void DeleteFinanceArticle(long id);
+
+        FinanceOperation[] GetFinanceOperations();
+        void AddFinanceOperation(FinanceOperation operation);
+        void UpdateFinanceOperation(FinanceOperation operation);
+        void DeleteFinanceOperation(long id);
     }
 }

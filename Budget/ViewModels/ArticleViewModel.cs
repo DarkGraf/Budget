@@ -1,43 +1,31 @@
 ﻿using Budget.Bll.DomainObjects;
 using Budget.Bll.DomainObjects.Enums;
-using Prism.Mvvm;
-using System;
 using System.ComponentModel.DataAnnotations;
-using WpfObjectView.Attributes;
+using WpfObjectView.ViewModels;
 
 namespace Budget.ViewModels
 {
-    class ArticleViewModel : BindableBase
+    class ArticleViewModel : ObjectViewModelBase<FinanceArticle>
     {
-        [VisibleInView(false)]
-        public FinanceArticle Article { get; }
+        public ArticleViewModel() { }
 
-        public ArticleViewModel()
-        {
-            Article = new FinanceArticle();
-        }
+        public ArticleViewModel(FinanceArticle article) : base(article) { }
 
-        public ArticleViewModel(FinanceArticle article)
+        protected override string DisplayName
         {
-            Article = article ?? throw new ArgumentNullException(nameof(article));
-        }
-
-        [VisibleInView(false)]
-        public long Id
-        {
-            get { return Article.Id; }
+            get { return Name; }
         }
 
         [Display(Name = "Наименование")]
         public string Name
         {
-            get { return Article.Name; }
+            get { return Object.Name; }
             set
             {
-                if (Article.Name != value)
+                if (Object.Name != value)
                 {
-                    Article.Name = value;
-                    RaisePropertyChanged(nameof(Name));
+                    Object.Name = value;
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -45,20 +33,15 @@ namespace Budget.ViewModels
         [Display(Name = "Тип")]
         public FinanceArticleType Type
         {
-            get { return Article.Type; }
+            get { return Object.Type; }
             set
             {
-                if (Article.Type != value)
+                if (Object.Type != value)
                 {
-                    Article.Type = value;
-                    RaisePropertyChanged(nameof(Type));
+                    Object.Type = value;
+                    RaisePropertyChanged();
                 }
             }
-        }
-
-        public override string ToString()
-        {
-            return Name;
         }
     }
 }

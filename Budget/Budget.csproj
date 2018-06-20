@@ -81,10 +81,15 @@
     </ApplicationDefinition>
     <Compile Include="ViewModels\ArticlesViewModel.cs" />
     <Compile Include="ViewModels\ArticleViewModel.cs" />
+    <Compile Include="ViewModels\OperationsViewModel.cs" />
+    <Compile Include="ViewModels\OperationViewModel.cs" />
     <Compile Include="ViewModels\StoragesViewModel.cs" />
     <Compile Include="ViewModels\StorageViewModel.cs" />
     <Compile Include="Views\ArticlesView.xaml.cs">
       <DependentUpon>ArticlesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OperationsView.xaml.cs">
+      <DependentUpon>OperationsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StoragesView.xaml.cs">
       <DependentUpon>StoragesView.xaml</DependentUpon>
@@ -94,6 +99,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OperationsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

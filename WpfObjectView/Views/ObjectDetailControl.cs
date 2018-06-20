@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using WpfObjectView.Attributes;
+using WpfObjectView.Views.Controls;
 
 namespace WpfObjectView.Views
 {
@@ -37,12 +38,12 @@ namespace WpfObjectView.Views
         #endregion
 
         readonly Grid mainGrid;
-        readonly List<BindingExpressionBase> bindingExpressions;
-
+        readonly ControlContainer controlContainer;
+        
         public ObjectDetailControl()
         {
             Content = mainGrid = new Grid();
-            bindingExpressions = new List<BindingExpressionBase>();
+            controlContainer = new ControlContainer();
 
             mainGrid.ColumnDefinitions.Add(new ColumnDefinition
             {
@@ -59,10 +60,7 @@ namespace WpfObjectView.Views
 
         public void Update()
         {
-            foreach (var be in bindingExpressions)
-            {
-                be.UpdateSource();
-            }
+            controlContainer.Update();
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -75,7 +73,7 @@ namespace WpfObjectView.Views
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
-            bindingExpressions.Clear();
+            controlContainer.Clear();
             mainGrid.Children.Clear();
             mainGrid.RowDefinitions.Clear();
         }
@@ -105,27 +103,7 @@ namespace WpfObjectView.Views
                 Grid.SetRow(label, mainGrid.RowDefinitions.Count - 1);
                 mainGrid.Children.Add(label);
 
-                Binding binding = new Binding();
-                binding.Path = new PropertyPath(info.Name);
-                binding.Mode = info.CanWrite ? BindingMode.TwoWay : BindingMode.OneWay;
-                binding.UpdateSourceTrigger = UpdateSourceTrigger.Explicit;
-
-                Control control;
-                if (info.PropertyType.BaseType == typeof(Enum))
-                {
-                    ComboBox comboBox = new ComboBox();
-                    comboBox.ItemsSource = Enum.GetValues(info.PropertyType);
-                    bindingExpressions.Add(comboBox.SetBinding(ComboBox.SelectedItemProperty, binding));
-                    control = comboBox;
-                }
-                else
-                {
-                    TextBox textBox = new TextBox();
-                    textBox.IsReadOnly = !info.CanWrite;
-                    bindingExpressions.Add(textBox.SetBinding(TextBox.TextProperty, binding));
-                    control = textBox;
-                }
-
+                Control control = controlContainer.Create(info, DataContext);
                 control.Margin = new Thickness(5);
                 Grid.SetColumn(control, 1);
                 Grid.SetRow(control, mainGrid.RowDefinitions.Count - 1);

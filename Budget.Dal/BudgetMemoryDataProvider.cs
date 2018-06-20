@@ -1,6 +1,7 @@
 ﻿using Budget.Bll;
 using Budget.Bll.DomainObjects;
 using Budget.Bll.DomainObjects.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,12 +24,24 @@ namespace Budget.Dal
 
         List<FinanceArticle> financeArticles = new List<FinanceArticle>
         {
-            new FinanceArticle { Id = 1, Name = "Aaa", Type = FinanceArticleType.Income },
-            new FinanceArticle { Id = 2, Name = "Bbb", Type = FinanceArticleType.Cost },
-            new FinanceArticle { Id = 3, Name = "Ccc", Type = FinanceArticleType.Income },
-            new FinanceArticle { Id = 4, Name = "Ddd", Type = FinanceArticleType.Cost },
-            new FinanceArticle { Id = 5, Name = "Eee", Type = FinanceArticleType.Income }
+            new FinanceArticle { Id = 1, Name = "Зарплата", Type = FinanceArticleType.Income },
+            new FinanceArticle { Id = 2, Name = "Покупки в магазине", Type = FinanceArticleType.Cost },
+            new FinanceArticle { Id = 3, Name = "Прочие расходы", Type = FinanceArticleType.Cost },
+            new FinanceArticle { Id = 4, Name = "Страховка", Type = FinanceArticleType.Cost },
+            new FinanceArticle { Id = 5, Name = "Аванс", Type = FinanceArticleType.Income }
         };
+
+        List<FinanceOperation> financeOperations;
+
+        public BudgetMemoryDataProvider()
+        {
+            financeOperations = new List<FinanceOperation>
+            {
+                new FinanceOperation { Id = 1, Date = new DateTime(2018, 5, 20), Article = financeArticles.First(a => a.Id == 1), Sum = 50000 },
+                new FinanceOperation { Id = 2, Date = new DateTime(2018, 5, 21), Article = financeArticles.First(a => a.Id == 2), Sum = 1500 },
+                new FinanceOperation { Id = 3, Date = new DateTime(2018, 5, 21), Article = financeArticles.First(a => a.Id == 3), Sum = 5000 }
+            };
+        }
 
         #region IBudgetDataProvider
 
@@ -53,11 +66,7 @@ namespace Budget.Dal
 
         public void UpdateFinanceStorage(FinanceStorage storage)
         {
-            FinanceStorage storageForUpdate = financeStorages.First(s => s.Id == storage.Id);
-            if (storage != storageForUpdate)
-            {
-                storage.Name = storageForUpdate.Name;
-            }
+            // Обновлять не надо, так как UI уже обновил.
         }
 
         #endregion
@@ -83,12 +92,33 @@ namespace Budget.Dal
 
         public void UpdateFinanceArticle(FinanceArticle article)
         {
-            FinanceArticle articleForUpdate = financeArticles.First(s => s.Id == article.Id);
-            if (article != articleForUpdate)
-            {
-                article.Name = articleForUpdate.Name;
-                article.Type = articleForUpdate.Type;
-            }
+            // Обновлять не надо, так как UI уже обновил.
+        }
+
+        #endregion
+
+        #region Operation
+
+        public void AddFinanceOperation(FinanceOperation operation)
+        {
+            operation.Id = financeOperations.Select(s => s.Id).Max() + 1;
+            financeOperations.Add(operation);
+        }
+
+        public void DeleteFinanceOperation(long id)
+        {
+            FinanceOperation operation = financeOperations.First(s => s.Id == id);
+            financeOperations.Remove(operation);
+        }
+
+        public FinanceOperation[] GetFinanceOperations()
+        {
+            return financeOperations.ToArray();
+        }
+
+        public void UpdateFinanceOperation(FinanceOperation operation)
+        {
+            // Обновлять не надо, так как UI уже обновил.
         }
 
         #endregion

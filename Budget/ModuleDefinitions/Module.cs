@@ -32,6 +32,7 @@ namespace Budget.ModuleDefinitions
             IMenuService menuService = unityContainer.Resolve<IMenuService>();
             menuService.CreateParentMenu("Main", "Главное");
             menuService.CreateParentMenu("Dictionaries", "Справочники");
+            menuService.RegisterViewWithRegionForMenu<OperationsView>("Main", "Операции", "MainRegion");
             menuService.RegisterViewWithRegionForMenu<StoragesView>("Dictionaries", "Финансовое хранение", "MainRegion");
             menuService.RegisterViewWithRegionForMenu<ArticlesView>("Dictionaries", "Статьи доходов-расходов", "MainRegion");
         }

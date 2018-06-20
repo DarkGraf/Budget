@@ -11,6 +11,8 @@ namespace Budget.Bll.DomainObjects
             this.dataProvider = dataProvider ?? throw new ArgumentNullException(nameof(dataProvider));
         }
 
+        #region Storage
+
         public FinanceStorage[] GetFinanceStorage()
         {
             return dataProvider.GetFinanceStorages();
@@ -36,6 +38,10 @@ namespace Budget.Bll.DomainObjects
 
         public event EventHandler FinanceStoragesChanged;
 
+        #endregion
+
+        #region Article
+
         public FinanceArticle[] GetFinanceArticle()
         {
             return dataProvider.GetFinanceArticles();
@@ -60,5 +66,36 @@ namespace Budget.Bll.DomainObjects
         }
 
         public event EventHandler FinanceArticleChanged;
+
+        #endregion
+
+        #region Operation
+
+        public FinanceOperation[] GetFinanceOperations()
+        {
+            return dataProvider.GetFinanceOperations();
+        }
+
+        public void AddFinanceOperation(FinanceOperation operation)
+        {
+            dataProvider.AddFinanceOperation(operation);
+            FinanceOperationChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void UpdateFinanceOperation(FinanceOperation operation)
+        {
+            dataProvider.UpdateFinanceOperation(operation);
+            FinanceOperationChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void DeleteFinanceOperation(FinanceOperation operation)
+        {
+            dataProvider.DeleteFinanceOperation(operation.Id);
+            FinanceOperationChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public event EventHandler FinanceOperationChanged;
+
+        #endregion
     }
 }

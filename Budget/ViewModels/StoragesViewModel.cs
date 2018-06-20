@@ -21,19 +21,19 @@ namespace Budget.ViewModels
             return budgetObject.GetFinanceStorage().Select(s => new StorageViewModel(s));
         }
 
-        protected override void AddSaveItem(StorageViewModel item)
+        protected override void AddItem(StorageViewModel item)
         {
-            budgetObject.AddFinanceStorage(item.Storage);
+            budgetObject.AddFinanceStorage(item.Object);
         }
 
-        protected override void EditSaveItem(StorageViewModel item)
+        protected override void EditItem(StorageViewModel item)
         {
-            budgetObject.UpdateFinanceStorage(item.Storage);
+            budgetObject.UpdateFinanceStorage(item.Object);
         }
 
-        protected override void DeleteSaveItem(StorageViewModel item)
+        protected override void DeleteItem(StorageViewModel item)
         {
-            budgetObject.DeleteFinanceStorage(item.Storage);
+            budgetObject.DeleteFinanceStorage(item.Object);
         }
     }
 }

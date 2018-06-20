@@ -2,13 +2,15 @@
 using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Input;
 using WpfObjectView.Notifications;
+using WpfObjectView.ViewModels.Interfaces;
 
 namespace WpfObjectView.ViewModels
 {
-    public abstract class ObjectListViewModel<T> : BindableBase
+    public abstract class ObjectListViewModel<T> : BindableBase, IObjectsEnumerable
         where T : new()
     {
         T selectedItem;
@@ -29,6 +31,8 @@ namespace WpfObjectView.ViewModels
             get { return GetItems(); }
         }
 
+        IEnumerable IObjectsEnumerable.Items { get => Items; }
+
         public T SelectedItem
         {
             get { return selectedItem; }
@@ -48,14 +52,14 @@ namespace WpfObjectView.ViewModels
         private void AddItemExecute()
         {
             T item = new T();
-            AddObjectNotificationRequest.Raise(new ObjectConfirmation("Добавление", item, () => AddSaveItem(item)));
+            AddObjectNotificationRequest.Raise(new ObjectConfirmation("Добавление", item, () => AddItem(item)));
         }
 
         private void EditItemExecute()
         {
             if (SelectedItem != null)
             {
-                EditObjectNotificationRequest.Raise(new ObjectConfirmation("Редактирование", SelectedItem, () => EditSaveItem(SelectedItem)));
+                EditObjectNotificationRequest.Raise(new ObjectConfirmation("Редактирование", SelectedItem, () => EditItem(SelectedItem)));
             }
         }
 
@@ -67,7 +71,7 @@ namespace WpfObjectView.ViewModels
                 {
                     if (r.Confirmed)
                     {
-                        DeleteSaveItem(SelectedItem);
+                        DeleteItem(SelectedItem);
                     }
                 };
 
@@ -81,10 +85,10 @@ namespace WpfObjectView.ViewModels
         }
 
 
-        protected virtual void AddSaveItem(T item) { }
+        protected virtual void AddItem(T item) { }
 
-        protected virtual void EditSaveItem(T item) { }
+        protected virtual void EditItem(T item) { }
 
-        protected virtual void DeleteSaveItem(T item) { }
+        protected virtual void DeleteItem(T item) { }
     }
 }

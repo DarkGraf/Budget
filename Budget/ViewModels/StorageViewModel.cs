@@ -1,50 +1,30 @@
 ﻿using Budget.Bll.DomainObjects;
-using Prism.Mvvm;
-using System;
 using System.ComponentModel.DataAnnotations;
-using WpfObjectView.Attributes;
+using WpfObjectView.ViewModels;
 
 namespace Budget.ViewModels
 {
-    class StorageViewModel : BindableBase
+    class StorageViewModel : ObjectViewModelBase<FinanceStorage>
     {
-        [VisibleInView(false)]
-        public FinanceStorage Storage { get; }
+        public StorageViewModel() { }
 
-        public StorageViewModel()
-        {
-            Storage = new FinanceStorage();
-        }
+        public StorageViewModel(FinanceStorage storage) : base(storage) { }
 
-        public StorageViewModel(FinanceStorage storage)
+        protected override string DisplayName
         {
-            Storage = storage ?? throw new ArgumentNullException(nameof(storage));
-        }
-
-        [VisibleInView(false)]
-        public long Id
-        {
-            get { return Storage.Id; }
-            set
-            {
-                if (Storage.Id != value)
-                {
-                    Storage.Id = value;
-                    RaisePropertyChanged(nameof(Storage.Id));
-                }
-            }
+            get { return Name; }
         }
 
         [Display(Name = "Наименование")]
         public string Name
         {
-            get { return Storage.Name; }
+            get { return Object.Name; }
             set
             {
-                if (Storage.Name != value)
+                if (Object.Name != value)
                 {
-                    Storage.Name = value;
-                    RaisePropertyChanged(nameof(Storage.Name));
+                    Object.Name = value;
+                    RaisePropertyChanged();
                 }
             }
         }

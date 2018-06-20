@@ -2,7 +2,7 @@
 
 namespace WpfObjectView.Attributes
 {
-    [AttributeUsage(AttributeTargets.Property, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Property)]
     public class VisibleInViewAttribute : Attribute
     {
         public VisibleInViewAttribute(bool visible)

@@ -21,19 +21,19 @@ namespace Budget.ViewModels
             return budgetObject.GetFinanceArticle().Select(a => new ArticleViewModel(a));
         }
 
-        protected override void AddSaveItem(ArticleViewModel item)
+        protected override void AddItem(ArticleViewModel item)
         {
-            budgetObject.AddFinanceArticle(item.Article);
+            budgetObject.AddFinanceArticle(item.Object);
         }
 
-        protected override void EditSaveItem(ArticleViewModel item)
+        protected override void EditItem(ArticleViewModel item)
         {
-            budgetObject.UpdateFinanceArticle(item.Article);
+            budgetObject.UpdateFinanceArticle(item.Object);
         }
 
-        protected override void DeleteSaveItem(ArticleViewModel item)
+        protected override void DeleteItem(ArticleViewModel item)
         {
-            budgetObject.DeleteFinanceArticle(item.Article);
+            budgetObject.DeleteFinanceArticle(item.Object);
         }
     }
 }
