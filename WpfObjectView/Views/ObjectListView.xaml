@@ -88,6 +88,12 @@
                 <Image 
                     Source="../Images/Delete.png" />
             </Button>
+            <Separator />
+            <Button
+                Command="{Binding RefreshCommand}">
+                <Image 
+                    Source="../Images/Refresh.png" />
+            </Button>
         </ToolBar>
 
         <DataGrid

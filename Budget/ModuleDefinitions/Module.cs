@@ -1,12 +1,14 @@
 ﻿using Budget.Bll;
 using Budget.Bll.DomainObjects;
 using Budget.Dal;
+using Budget.Dal.EF;
 using Budget.Services;
 using Budget.Services.Interfaces;
 using Budget.Views;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
+using System.Configuration;
 
 namespace Budget.ModuleDefinitions
 {
@@ -23,9 +25,13 @@ namespace Budget.ModuleDefinitions
 
         public void Initialize()
         {
+            string connectionString = ConfigurationManager.ConnectionStrings["Finances"].ConnectionString;
+
             unityContainer.RegisterType<IMenuService, MenuService>(new ContainerControlledLifetimeManager());
             unityContainer.RegisterType<BudgetObject>(new ContainerControlledLifetimeManager());
-            unityContainer.RegisterType<IBudgetDataProvider, BudgetMemoryDataProvider>();
+            unityContainer.RegisterType<IBudgetDataProvider, BudgetSQLiteDataProvider>(new ContainerControlledLifetimeManager());
+            unityContainer.RegisterType<BudgetContext>(new InjectionConstructor(connectionString));
+            unityContainer.RegisterType<IMapper, Mapper>(new ContainerControlledLifetimeManager());
 
             regionManager.RegisterViewWithRegion("MenuRegion", typeof(MenuView));
 

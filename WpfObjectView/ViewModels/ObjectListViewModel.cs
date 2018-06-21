@@ -20,6 +20,7 @@ namespace WpfObjectView.ViewModels
             AddItemCommand = new DelegateCommand(AddItemExecute);
             EditItemCommand = new DelegateCommand(EditItemExecute);
             DeleteItemCommand = new DelegateCommand(DeleteItemExecute);
+            RefreshCommand = new DelegateCommand(RefreshExecute);
 
             AddObjectNotificationRequest = new InteractionRequest<IObjectConfirmation>();
             EditObjectNotificationRequest = new InteractionRequest<IObjectConfirmation>();
@@ -42,6 +43,7 @@ namespace WpfObjectView.ViewModels
         public ICommand AddItemCommand { get; }
         public ICommand EditItemCommand { get; }
         public ICommand DeleteItemCommand { get; }
+        public ICommand RefreshCommand { get; }
 
         public InteractionRequest<IObjectConfirmation> AddObjectNotificationRequest { get; }
         public InteractionRequest<IObjectConfirmation> EditObjectNotificationRequest { get; }
@@ -90,5 +92,10 @@ namespace WpfObjectView.ViewModels
         protected virtual void EditItem(T item) { }
 
         protected virtual void DeleteItem(T item) { }
+
+        private void RefreshExecute()
+        {
+            RaisePropertyChanged(nameof(Items));
+        }
     }
 }
