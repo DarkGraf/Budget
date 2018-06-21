@@ -2,7 +2,7 @@
 
 namespace Budget.Dal.Entities
 {
-    public class FinanceOperation
+    public class FinanceOperation : IEntity
     {
         public long Id { get; set; }
         public DateTime Date { get; set; }

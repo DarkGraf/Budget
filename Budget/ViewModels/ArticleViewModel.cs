@@ -11,10 +11,9 @@ namespace Budget.ViewModels
 
         public ArticleViewModel(FinanceArticle article) : base(article) { }
 
-        protected override string DisplayName
-        {
-            get { return Name; }
-        }
+        public override long RealKey => Object.Id;
+
+        protected override string DisplayName => Name;
 
         [Display(Name = "Наименование")]
         public string Name

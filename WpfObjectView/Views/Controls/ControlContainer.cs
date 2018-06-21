@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using WpfObjectView.Attributes;
 using WpfObjectView.ViewModels.Interfaces;
+using System.Collections;
 
 namespace WpfObjectView.Views.Controls
 {
@@ -43,19 +44,19 @@ namespace WpfObjectView.Views.Controls
                 Type dataSourceType = dataSourceAttr?.Type;
                 if (dataSourceType != null)
                 {
-                    // Используя сервис локатор, запросим у Prism ObjectListViewModel<T>, которая 
-                    // реализует IObjectsEnumerable предоставляя доступ к коллекции объектов ObjectViewModelBase<T>.
+                    // Используя сервис локатор, запросим у Prism ObjectListViewModel<>, которая 
+                    // реализует IObjectsEnumerable предоставляя доступ к коллекции объектов ObjectViewModelBase<>.
                     IObjectsEnumerable dataSource = ServiceLocator.Current.GetService(dataSourceType) as IObjectsEnumerable;
-                    // Получим неизменяемую коллекцию из Linq.
-                    comboBox.ItemsSource = dataSource.Items.Cast<IObject>().ToArray();
+                    // Получим неизменяемую коллекцию элементов IRealKeyViewModel.
+                    comboBox.ItemsSource = dataSource.Items.Cast<IRealKeyViewModel>().ToArray();
 
                     // Используя PropertyInfo получим значения свойства.
-                    // Так как это произвольный класс, он должен быть наследником ObjectViewModelBase<T>,
-                    // который реализует IObject. Используя данный интерфейс получим доменный объект.
-                    object domainObject = ((IObject)info.GetValue(viewModel)).ObjectModel;
+                    // Так как это произвольный класс, он должен быть наследником ObjectViewModelBase<>,
+                    // который реализует IRealKeyViewModel. Используя данный интерфейс получим ключ доменного объекта.
+                    long realKey = ((IRealKeyViewModel)info.GetValue(viewModel)).RealKey;
 
-                    // По доменному объекту найдем оборачивающую его модель представления.
-                    IObject obj = comboBox.ItemsSource.Cast<IObject>().SingleOrDefault(v => v.ObjectModel == domainObject);
+                    // По ключу доменного объекта найдем оборачивающую его модель представления.
+                    IRealKeyViewModel obj = comboBox.ItemsSource.Cast<IRealKeyViewModel>().SingleOrDefault(v => v.RealKey == realKey);
                     // Если это не создание нового.
                     if (obj != null)
                     {

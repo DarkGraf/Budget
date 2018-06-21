@@ -1,7 +1,7 @@
 ﻿namespace WpfObjectView.ViewModels.Interfaces
 {
-    interface IObject
+    interface IRealKeyViewModel
     {
-        object ObjectModel { get; }
+        long RealKey { get; }
     }
 }

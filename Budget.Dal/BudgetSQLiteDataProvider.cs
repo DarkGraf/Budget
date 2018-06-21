@@ -1,52 +1,55 @@
 ﻿using Budget.Bll;
 using Budget.Bll.DomainObjects;
 using Budget.Dal.EF;
+using Budget.Dal.Mappers;
 using System;
-using System.Linq;
 
 namespace Budget.Dal
 {
     public class BudgetSQLiteDataProvider : IBudgetDataProvider
     {
         readonly BudgetContext budgetContext;
-        readonly IMapper mapper;
+
+        readonly CRUDGenericReposiroty<Entities.FinanceArticle, FinanceArticle> articleRepository;
+        readonly CRUDGenericReposiroty<Entities.FinanceStorage, FinanceStorage> storageRepository;
+        readonly CRUDGenericReposiroty<Entities.FinanceOperation, FinanceOperation> operationRepository;
 
         public BudgetSQLiteDataProvider(BudgetContext budgetContext, IMapper mapper)
         {
             this.budgetContext = budgetContext ?? throw new ArgumentNullException(nameof(budgetContext));
-            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            if (mapper == null)
+            {
+                throw new ArgumentNullException(nameof(mapper));
+            }
+
+            articleRepository = new CRUDGenericReposiroty<Entities.FinanceArticle, FinanceArticle>(budgetContext, mapper);
+            storageRepository = new CRUDGenericReposiroty<Entities.FinanceStorage, FinanceStorage>(budgetContext, mapper);
+            operationRepository = new CRUDGenericReposiroty<Entities.FinanceOperation, FinanceOperation>(budgetContext, mapper);
         }
 
         #region Article
 
         public void AddFinanceArticle(FinanceArticle article)
         {
-            var dalArticle = mapper.ArticleBllToDal(article);
-            budgetContext.FinanceArticles.Add(dalArticle);
+            articleRepository.Add(article);
             budgetContext.SaveChanges();
         }
 
         public void DeleteFinanceArticle(long id)
         {
-            var dalArticle = budgetContext.FinanceArticles.Find(id);
-            budgetContext.FinanceArticles.Remove(dalArticle);
+            articleRepository.Delete(id);
             budgetContext.SaveChanges();
         }
 
         public FinanceArticle[] GetFinanceArticles()
         {
-            var dalArticles = budgetContext.FinanceArticles.ToArray();
-            return mapper.ArticlesDalToBll(dalArticles).ToArray();
+            return articleRepository.GetAll();
         }
 
         public void UpdateFinanceArticle(FinanceArticle article)
         {
-            var dalArticle = budgetContext.FinanceArticles.Find(article.Id);
-            if (dalArticle != null)
-            {
-                mapper.ArticleBllToDal(article, dalArticle);
-                budgetContext.SaveChanges();
-            }
+            articleRepository.Update(article);
+            budgetContext.SaveChanges();
         }
 
         #endregion
@@ -55,32 +58,25 @@ namespace Budget.Dal
 
         public void AddFinanceStorage(FinanceStorage storage)
         {
-            var dalStorage = mapper.StorageBllToDal(storage);
-            budgetContext.FinanceStorages.Add(dalStorage);
+            storageRepository.Add(storage);
             budgetContext.SaveChanges();
         }
 
         public void DeleteFinanceStorage(long id)
         {
-            var dalStorage = budgetContext.FinanceStorages.Find(id);
-            budgetContext.FinanceStorages.Remove(dalStorage);
+            storageRepository.Delete(id);
             budgetContext.SaveChanges();
         }
 
         public FinanceStorage[] GetFinanceStorages()
         {
-            var dalStorages = budgetContext.FinanceStorages.ToArray();
-            return mapper.StoragesDalToBll(dalStorages).ToArray();
+            return storageRepository.GetAll();
         }
 
         public void UpdateFinanceStorage(FinanceStorage storage)
         {
-            var dalStorage = budgetContext.FinanceStorages.Find(storage.Id);
-            if (dalStorage != null)
-            {
-                mapper.StorageBllToDal(storage, dalStorage);
-                budgetContext.SaveChanges();
-            }
+            storageRepository.Update(storage);
+            budgetContext.SaveChanges();
         }
 
         #endregion
@@ -89,22 +85,25 @@ namespace Budget.Dal
 
         public void AddFinanceOperation(FinanceOperation operation)
         {
-            throw new NotImplementedException();
+            operationRepository.Add(operation);
+            budgetContext.SaveChanges();
         }
 
         public void DeleteFinanceOperation(long id)
         {
-            throw new NotImplementedException();
+            operationRepository.Delete(id);
+            budgetContext.SaveChanges();
         }
 
         public FinanceOperation[] GetFinanceOperations()
         {
-            throw new NotImplementedException();
+            return operationRepository.GetAll(o => o.Article);
         }
 
         public void UpdateFinanceOperation(FinanceOperation operation)
         {
-            throw new NotImplementedException();
+            operationRepository.Update(operation);
+            budgetContext.SaveChanges();
         }
 
         #endregion

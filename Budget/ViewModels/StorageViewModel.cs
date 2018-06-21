@@ -10,10 +10,9 @@ namespace Budget.ViewModels
 
         public StorageViewModel(FinanceStorage storage) : base(storage) { }
 
-        protected override string DisplayName
-        {
-            get { return Name; }
-        }
+        public override long RealKey => Object.Id;
+
+        protected override string DisplayName => Name;
 
         [Display(Name = "Наименование")]
         public string Name

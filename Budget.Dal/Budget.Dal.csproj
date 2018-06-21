@@ -68,12 +68,15 @@
     <Compile Include="BudgetMemoryDataProvider.cs" />
     <Compile Include="BudgetSQLiteDataProvider.cs" />
     <Compile Include="EF\BudgetContext.cs" />
+    <Compile Include="EF\CRUDGenericReposiroty.cs" />
     <Compile Include="EF\SQLiteConfiguration .cs" />
     <Compile Include="Entities\FinanceArticle.cs" />
     <Compile Include="Entities\FinanceOperation.cs" />
     <Compile Include="Entities\FinanceStorage.cs" />
-    <Compile Include="IMapper.cs" />
-    <Compile Include="Mapper.cs" />
+    <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="Mappers\IMapper.cs" />
+    <Compile Include="Mappers\IParticularMapper.cs" />
+    <Compile Include="Mappers\Mapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

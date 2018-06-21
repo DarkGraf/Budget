@@ -2,6 +2,7 @@
 using Budget.Bll.DomainObjects;
 using Budget.Dal;
 using Budget.Dal.EF;
+using Budget.Dal.Mappers;
 using Budget.Services;
 using Budget.Services.Interfaces;
 using Budget.Views;

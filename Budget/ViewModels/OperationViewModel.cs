@@ -12,11 +12,10 @@ namespace Budget.ViewModels
 
         public OperationViewModel(FinanceOperation operation) : base(operation) { }
 
-        protected override string DisplayName
-        {
-            get { return $"{Date.ToString()} {Article.Name} {Sum.ToString()}"; }
-        }
+        public override long RealKey => Object.Id;
 
+        protected override string DisplayName => $"{Date.ToString()} {Article.Name} {Sum.ToString()}";
+        
         [Display(Name = "Дата")]
         public DateTime Date
         {

@@ -6,11 +6,17 @@ using WpfObjectView.ViewModels.Interfaces;
 
 namespace WpfObjectView.ViewModels
 {
-    public abstract class ObjectViewModelBase<T> : BindableBase, IObject
+    public abstract class ObjectViewModelBase<T> : BindableBase, IRealKeyViewModel
         where T : class, new()
     {
         [VisibleInView(false)]
         public T Object { get; }
+
+        // Может быть несколько различных доменных объектов представляющих один реальный объект,
+        // т. е. размещенных в разных местах памяти. Соответственно ViewModel`и их представляющие
+        // тем более будут разные. Данное поле должно идетифицировать именно реальный объект.
+        [VisibleInView(false)]
+        public abstract long RealKey { get; }
 
         public ObjectViewModelBase()
         {
@@ -26,11 +32,6 @@ namespace WpfObjectView.ViewModels
         }
 
         protected abstract string DisplayName { get; }
-
-        object IObject.ObjectModel
-        {
-            get { return Object; }
-        }
 
         public override string ToString()
         {
