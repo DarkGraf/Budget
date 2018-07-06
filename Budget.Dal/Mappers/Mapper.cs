@@ -14,7 +14,7 @@ namespace Budget.Dal.Mappers
 
             cfg.CreateMap<Entities.FinanceOperation, Bll.DomainObjects.FinanceOperation>();
             cfg.CreateMap<Bll.DomainObjects.FinanceOperation, Entities.FinanceOperation>()
-                .ForMember("Article", opt => opt.MapFrom(src => (Entities.FinanceArticle)null)); ;
+                .ForMember(dst => dst.Article, opt => opt.MapFrom(src => (Entities.FinanceArticle)null)); ;
         }).CreateMapper();
 
         public IEnumerable<Bll.DomainObjects.FinanceArticle> MapDalToBll(IEnumerable<Entities.FinanceArticle> dalArticles)

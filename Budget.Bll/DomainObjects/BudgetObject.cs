@@ -84,6 +84,7 @@ namespace Budget.Bll.DomainObjects
 
         public void UpdateFinanceOperation(FinanceOperation operation)
         {
+#warning Если обновить любое поле кроме статьи, будет ошибка.
             dataProvider.UpdateFinanceOperation(operation);
             FinanceOperationChanged?.Invoke(this, EventArgs.Empty);
         }

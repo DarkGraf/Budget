@@ -85,11 +85,16 @@
     <Compile Include="ViewModels\ObjectListViewModel.cs" />
     <Compile Include="ViewModels\ObjectViewModelBase.cs" />
     <Compile Include="ViewModels\QuestionViewModel.cs" />
-    <Compile Include="Views\Controls\ControlContainer.cs" />
+    <Compile Include="Views\DetailFrameItems\DetailFrameComboBoxItem.cs" />
+    <Compile Include="Views\DetailFrameItems\DetailFrameItemContainer.cs" />
+    <Compile Include="Views\DetailFrameItems\DetailFrameItemFactory.cs" />
+    <Compile Include="Views\DetailFrameItems\DetailFrameItemBase.cs" />
+    <Compile Include="Views\DetailFrameItems\DetailFrameListItem.cs" />
+    <Compile Include="Views\DetailFrameItems\DetailFrameTextBoxItem.cs" />
     <Compile Include="Views\ObjectDetailView.xaml.cs">
       <DependentUpon>ObjectDetailView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ObjectDetailControl.cs" />
+    <Compile Include="Views\ObjectDetailFrame.cs" />
     <Compile Include="Views\ObjectListView.xaml.cs">
       <DependentUpon>ObjectListView.xaml</DependentUpon>
     </Compile>

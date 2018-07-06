@@ -4,18 +4,18 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using WpfObjectView.Attributes;
-using WpfObjectView.Views.Controls;
+using WpfObjectView.Views.DetailFrameItems;
 
 namespace WpfObjectView.Views
 {
-    public class ObjectDetailControl : ContentControl
+    public class ObjectDetailFrame : ContentControl
     {
         #region UpdateFlagProperty
 
         public static readonly DependencyProperty UpdateFlagProperty = DependencyProperty.Register(
             "UpdateFlag",
             typeof(bool),
-            typeof(ObjectDetailControl),
+            typeof(ObjectDetailFrame),
             new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, UpdateFlagPropertyChanged));
 
         public bool UpdateFlag
@@ -26,7 +26,7 @@ namespace WpfObjectView.Views
 
         private static void UpdateFlagPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is ObjectDetailControl view && view.UpdateFlag)
+            if (d is ObjectDetailFrame view && view.UpdateFlag)
             {
                 view.Update();
                 view.UpdateFlag = false;
@@ -36,12 +36,12 @@ namespace WpfObjectView.Views
         #endregion
 
         readonly Grid mainGrid;
-        readonly ControlContainer controlContainer;
+        readonly DetailFrameItemContainer itemContainer;
         
-        public ObjectDetailControl()
+        public ObjectDetailFrame()
         {
             Content = mainGrid = new Grid();
-            controlContainer = new ControlContainer();
+            itemContainer = new DetailFrameItemContainer();
 
             mainGrid.ColumnDefinitions.Add(new ColumnDefinition
             {
@@ -58,7 +58,7 @@ namespace WpfObjectView.Views
 
         public void Update()
         {
-            controlContainer.Update();
+            itemContainer.Update();
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -71,7 +71,7 @@ namespace WpfObjectView.Views
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
-            controlContainer.Clear();
+            itemContainer.Clear();
             mainGrid.Children.Clear();
             mainGrid.RowDefinitions.Clear();
         }
@@ -88,24 +88,19 @@ namespace WpfObjectView.Views
                     continue;
                 }
 
-                mainGrid.RowDefinitions.Add(new RowDefinition
-                {
-                    Height = GridLength.Auto
-                });
+                mainGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-                var displayAttr = info.GetCustomAttribute<DisplayAttribute>();
+                DetailFrameItemBase item = itemContainer.Create(info, DataContext);
+                Control captionControl = item.CaptionControl;
+                Control editorControl = item.EditorControl;
 
-                Label label = new Label();
-                label.Content = displayAttr?.Name ?? info.Name;
-
-                Grid.SetRow(label, mainGrid.RowDefinitions.Count - 1);
-                mainGrid.Children.Add(label);
-
-                Control control = controlContainer.Create(info, DataContext);
-                control.Margin = new Thickness(5);
-                Grid.SetColumn(control, 1);
-                Grid.SetRow(control, mainGrid.RowDefinitions.Count - 1);
-                mainGrid.Children.Add(control);
+                Grid.SetRow(captionControl, mainGrid.RowDefinitions.Count - 1);
+                mainGrid.Children.Add(captionControl);
+                
+                editorControl.Margin = new Thickness(5);
+                Grid.SetColumn(editorControl, 1);
+                Grid.SetRow(editorControl, mainGrid.RowDefinitions.Count - 1);
+                mainGrid.Children.Add(editorControl);
             }
         }
     }

@@ -17,7 +17,7 @@
                 Height="Auto" />
         </Grid.RowDefinitions>
 
-        <local:ObjectDetailControl 
+        <local:ObjectDetailFrame 
             Width="400"
             Grid.Row="1"
             UpdateFlag="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.UpdateFlag}"
