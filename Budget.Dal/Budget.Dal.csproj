@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -65,19 +62,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BudgetMemoryDataProvider.cs" />
-    <Compile Include="BudgetSQLiteDataProvider.cs" />
     <Compile Include="EF\BudgetContext.cs" />
+    <Compile Include="EF\BudgetContextFactory.cs" />
     <Compile Include="EF\CRUDGenericReposiroty.cs" />
+    <Compile Include="EF\SpecificationFactory.cs" />
     <Compile Include="EF\SQLiteConfiguration .cs" />
-    <Compile Include="Entities\FinanceArticle.cs" />
-    <Compile Include="Entities\FinanceOperation.cs" />
-    <Compile Include="Entities\FinanceStorage.cs" />
-    <Compile Include="Entities\IEntity.cs" />
-    <Compile Include="Mappers\IMapper.cs" />
-    <Compile Include="Mappers\IParticularMapper.cs" />
-    <Compile Include="Mappers\Mapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Specifications\ExpressionSpecification.cs" />
+    <Compile Include="Specifications\OperationsWithArticlesSpecification.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

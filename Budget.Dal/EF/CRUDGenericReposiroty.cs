@@ -1,61 +1,58 @@
-﻿using Budget.Dal.Entities;
-using Budget.Dal.Mappers;
-using System;
+﻿using Budget.Bll.Interfaces;
 using System.Data.Entity;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace Budget.Dal.EF
 {
-    class CRUDGenericReposiroty<TDal, TBll>
-            where TDal : class, IEntity
+    class CRUDGenericReposiroty<TEntity> : IGenericRepository<TEntity>
+            where TEntity : class
     {
         readonly DbContext context;
-        readonly IParticularMapper<TBll, TDal> mapper;
-        readonly IDbSet<TDal> set;
+        readonly IDbSet<TEntity> set;
 
-        public CRUDGenericReposiroty(DbContext context, IParticularMapper<TBll, TDal> mapper)
+        public CRUDGenericReposiroty(DbContext context)
         {
             this.context = context;
-            this.mapper = mapper;
-
-            set = context.Set<TDal>();
+            set = context.Set<TEntity>();
         }
 
-        public void Add(TBll entity)
+        public void Add(TEntity entity)
         {
-            TDal dal = mapper.MapBllToDal(entity);
-            set.Add(dal);
+            set.Add(entity);
         }
 
-        public void Delete(long id)
+        public void Delete(object id)
         {
-            TDal dal = set.Find(id);
-            if (dal != null)
+            TEntity entity = set.Find(id);
+            Delete(entity);
+        }
+
+        public TEntity[] GetAll()
+        {
+            return set.ToArray();
+        }
+
+        public void Update(TEntity entity)
+        {
+            set.Attach(entity);
+            context.Entry(entity).State = EntityState.Modified;
+        }
+
+        public TEntity[] Filter(IExpressionSpecification<TEntity> specification)
+        {
+            IQueryable<TEntity> entities = set;
+
+            if (specification.Includes.Length > 0)
             {
-                set.Remove(dal);
+                foreach (string include in specification.Includes)
+                {
+                    entities = entities.Include(include);
+                }
             }
-        }
 
-        public TBll[] GetAll(params Expression<Func<TDal, object>>[] includes)
-        {
-            IQueryable<TDal> query = set;
-            foreach (var include in includes)
-            {
-                query = query.Include(include);
-            }
-            TDal[] dal = query.ToArray();
-            return mapper.MapDalToBll(dal).ToArray();
-        }
+            IQueryable<TEntity> query = entities.Where(specification.ToExpression());
 
-        public void Update(TBll entity)
-        {
-            TDal dal = mapper.MapBllToDal(entity);
-            dal = set.Find(dal.Id);
-            if (dal != null)
-            {
-                mapper.MapBllToDal(entity, dal);
-            }
+            return query.ToArray();
         }
     }
 }

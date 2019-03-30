@@ -1,8 +1,6 @@
-﻿using Budget.Bll;
-using Budget.Bll.DomainObjects;
-using Budget.Dal;
+﻿using Budget.Bll.DomainObjects;
+using Budget.Bll.Interfaces;
 using Budget.Dal.EF;
-using Budget.Dal.Mappers;
 using Budget.Services;
 using Budget.Services.Interfaces;
 using Budget.Views;
@@ -30,9 +28,8 @@ namespace Budget.ModuleDefinitions
 
             unityContainer.RegisterType<IMenuService, MenuService>(new ContainerControlledLifetimeManager());
             unityContainer.RegisterType<BudgetObject>(new ContainerControlledLifetimeManager());
-            unityContainer.RegisterType<IBudgetDataProvider, BudgetSQLiteDataProvider>(new ContainerControlledLifetimeManager());
-            unityContainer.RegisterType<BudgetContext>(new InjectionConstructor(connectionString));
-            unityContainer.RegisterType<IMapper, Mapper>(new ContainerControlledLifetimeManager());
+            unityContainer.RegisterType<IBudgetUnitOfWork>(new ContainerControlledLifetimeManager(),
+                new InjectionFactory(c => BudgetContextFactory.Create(connectionString)));
 
             regionManager.RegisterViewWithRegion("MenuRegion", typeof(MenuView));
 

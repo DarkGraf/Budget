@@ -1,38 +1,39 @@
-﻿using System;
+﻿using Budget.Bll.Interfaces;
+using System;
 
 namespace Budget.Bll.DomainObjects
 {
     public sealed class BudgetObject
     {
-        readonly IBudgetDataProvider dataProvider;
+        readonly IBudgetUnitOfWork unitOfWork;
 
-        public BudgetObject(IBudgetDataProvider dataProvider)
+        public BudgetObject(IBudgetUnitOfWork unitOfWork)
         {
-            this.dataProvider = dataProvider ?? throw new ArgumentNullException(nameof(dataProvider));
+            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
         #region Storage
 
         public FinanceStorage[] GetFinanceStorage()
         {
-            return dataProvider.GetFinanceStorages();
+            return unitOfWork.FinanceStorageRepository.GetAll();
         }
 
         public void AddFinanceStorage(FinanceStorage storage)
         {
-            dataProvider.AddFinanceStorage(storage);
+            unitOfWork.FinanceStorageRepository.Add(storage);
             FinanceStoragesChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void UpdateFinanceStorage(FinanceStorage storage)
         {
-            dataProvider.UpdateFinanceStorage(storage);
+            unitOfWork.FinanceStorageRepository.Update(storage);
             FinanceStoragesChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void DeleteFinanceStorage(FinanceStorage storage)
         {
-            dataProvider.DeleteFinanceStorage(storage.Id);
+            unitOfWork.FinanceStorageRepository.Delete(storage.Id);
             FinanceStoragesChanged?.Invoke(this, EventArgs.Empty);
         }
 
@@ -44,24 +45,24 @@ namespace Budget.Bll.DomainObjects
 
         public FinanceArticle[] GetFinanceArticle()
         {
-            return dataProvider.GetFinanceArticles();
+            return unitOfWork.FinanceArticleRepository.GetAll();
         }
 
         public void AddFinanceArticle(FinanceArticle article)
         {
-            dataProvider.AddFinanceArticle(article);
+            unitOfWork.FinanceArticleRepository.Add(article);
             FinanceArticleChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void UpdateFinanceArticle(FinanceArticle article)
         {
-            dataProvider.UpdateFinanceArticle(article);
+            unitOfWork.FinanceArticleRepository.Update(article);
             FinanceArticleChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void DeleteFinanceArticle(FinanceArticle article)
         {
-            dataProvider.DeleteFinanceArticle(article.Id);
+            unitOfWork.FinanceArticleRepository.Delete(article.Id);
             FinanceArticleChanged?.Invoke(this, EventArgs.Empty);
         }
 
@@ -73,25 +74,25 @@ namespace Budget.Bll.DomainObjects
 
         public FinanceOperation[] GetFinanceOperations()
         {
-            return dataProvider.GetFinanceOperations();
+            return unitOfWork.FinanceOperationRepository.Filter(unitOfWork.GetSpecificationFactory().GetOperationsWithArticles());
         }
 
         public void AddFinanceOperation(FinanceOperation operation)
         {
-            dataProvider.AddFinanceOperation(operation);
+            unitOfWork.FinanceOperationRepository.Add(operation);
             FinanceOperationChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void UpdateFinanceOperation(FinanceOperation operation)
         {
-#warning Если обновить любое поле кроме статьи, будет ошибка.
-            dataProvider.UpdateFinanceOperation(operation);
+#warning Если обновить любое поле кроме статьи, будет ошибка - Проверить.
+            unitOfWork.FinanceOperationRepository.Update(operation);
             FinanceOperationChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void DeleteFinanceOperation(FinanceOperation operation)
         {
-            dataProvider.DeleteFinanceOperation(operation.Id);
+            unitOfWork.FinanceOperationRepository.Delete(operation.Id);
             FinanceOperationChanged?.Invoke(this, EventArgs.Empty);
         }
 

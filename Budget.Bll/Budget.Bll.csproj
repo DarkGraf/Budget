@@ -45,7 +45,11 @@
     <Compile Include="DomainObjects\FinanceArticle.cs" />
     <Compile Include="DomainObjects\FinanceOperation.cs" />
     <Compile Include="DomainObjects\FinanceStorage.cs" />
-    <Compile Include="IBudgetDataProvider.cs" />
+    <Compile Include="Interfaces\IBudgetUnitOfWork.cs" />
+    <Compile Include="Interfaces\IExpressionSpecification.cs" />
+    <Compile Include="Interfaces\IIGenericRepository.cs" />
+    <Compile Include="Interfaces\ISpecification.cs" />
+    <Compile Include="Interfaces\ISpecificationFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
