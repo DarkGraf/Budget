@@ -79,7 +79,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\ConfirmationViewModelBase.cs" />
     <Compile Include="ViewModels\Interfaces\IRealKeyViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IObjectsEnumerable.cs" />
     <Compile Include="ViewModels\ObjectDetailViewModel.cs" />
