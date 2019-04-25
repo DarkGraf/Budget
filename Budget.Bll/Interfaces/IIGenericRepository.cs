@@ -7,6 +7,8 @@
 
         void Delete(object id);
 
+        void Delete(TEntity entity);
+
         TEntity[] GetAll();
 
         void Update(TEntity entity);

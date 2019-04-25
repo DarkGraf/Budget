@@ -1,13 +1,11 @@
 ﻿using Prism.Commands;
-using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
-using System;
 using System.Windows.Input;
+using WpfObjectView.Behaviors;
 
 namespace WpfObjectView.ViewModels
 {
-    abstract class ConfirmationViewModelBase<T> : BindableBase, IInteractionRequestAware
-        where T : IConfirmation
+    abstract class ConfirmationViewModelBase : BindableBase, IDialogHostViewModel
     {
         public ConfirmationViewModelBase()
         {
@@ -15,38 +13,24 @@ namespace WpfObjectView.ViewModels
             CancelCommand = new DelegateCommand(CancelExecute);
         }
 
-        #region IInteractionRequestAware
-
-        public INotification Notification
-        {
-            get { return Confirmation; }
-            set
-            {
-                Confirmation = (T)value;
-                OnConfirmationChanged();
-            }
-        }
-
-        public Action FinishInteraction { get; set; }
-
-        #endregion
-
         public ICommand OkCommand { get; }
         public ICommand CancelCommand { get; }
 
-        protected T Confirmation { get; private set; }
-
-        protected virtual void OnConfirmationChanged() { }
-
+#warning Сделать одну команду с параметром.
         protected virtual void OkExecute()
         {
-            Confirmation.Confirmed = true;
-            FinishInteraction();
+            DialogHost.Close();
         }
 
         protected virtual void CancelExecute()
         {
-            FinishInteraction();
+            DialogHost.Close();
         }
+
+        #region IDialogHostViewModel
+
+        public IDialogHost DialogHost { get; set; }
+
+        #endregion
     }
 }

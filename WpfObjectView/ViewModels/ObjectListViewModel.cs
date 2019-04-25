@@ -1,16 +1,14 @@
 ﻿using Prism.Commands;
-using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Input;
-using WpfObjectView.Notifications;
+using WpfObjectView.Behaviors;
 using WpfObjectView.ViewModels.Interfaces;
 
 namespace WpfObjectView.ViewModels
 {
-    public abstract class ObjectListViewModel<T> : BindableBase, IObjectsEnumerable
+    public abstract class ObjectListViewModel<T> : BindableBase, IObjectsEnumerable, IDialogHostViewModel
         where T : new()
     {
         T selectedItem;
@@ -21,10 +19,6 @@ namespace WpfObjectView.ViewModels
             EditItemCommand = new DelegateCommand(EditItemExecute);
             DeleteItemCommand = new DelegateCommand(DeleteItemExecute);
             RefreshCommand = new DelegateCommand(RefreshExecute);
-
-            AddObjectNotificationRequest = new InteractionRequest<IObjectConfirmation>();
-            EditObjectNotificationRequest = new InteractionRequest<IObjectConfirmation>();
-            DeleteObjectNotificationRequest = new InteractionRequest<IConfirmation>();
         }
 
         public IEnumerable<T> Items
@@ -33,6 +27,12 @@ namespace WpfObjectView.ViewModels
         }
 
         IEnumerable IObjectsEnumerable.Items { get => Items; }
+
+        #region IDialogHostViewModel
+
+        public IDialogHost DialogHost { get; set; }
+
+        #endregion
 
         public T SelectedItem
         {
@@ -45,23 +45,21 @@ namespace WpfObjectView.ViewModels
         public ICommand DeleteItemCommand { get; }
         public ICommand RefreshCommand { get; }
 
-        public InteractionRequest<IObjectConfirmation> AddObjectNotificationRequest { get; }
-        public InteractionRequest<IObjectConfirmation> EditObjectNotificationRequest { get; }
-        public InteractionRequest<IConfirmation> DeleteObjectNotificationRequest { get; }
-
         protected abstract IEnumerable<T> GetItems();
 
         private void AddItemExecute()
         {
             T item = new T();
-            AddObjectNotificationRequest.Raise(new ObjectConfirmation("Добавление", item, () => AddItem(item)));
+            ObjectDetailViewModel viewModel = new ObjectDetailViewModel(item, () => AddItem(item));
+            DialogHost.Show(viewModel, "Добавление");
         }
 
         private void EditItemExecute()
         {
             if (SelectedItem != null)
             {
-                EditObjectNotificationRequest.Raise(new ObjectConfirmation("Редактирование", SelectedItem, () => EditItem(SelectedItem)));
+                ObjectDetailViewModel viewModel = new ObjectDetailViewModel(SelectedItem, () => EditItem(SelectedItem));
+                DialogHost.Show(viewModel, "Редактирование");
             }
         }
 
@@ -69,23 +67,12 @@ namespace WpfObjectView.ViewModels
         {
             if (SelectedItem != null)
             {
-                Action<IConfirmation> callback = r =>
+                if (DialogHost.ShowQuestion($@"Удалить ""{SelectedItem.ToString()}""?") == true)
                 {
-                    if (r.Confirmed)
-                    {
-                        DeleteItem(SelectedItem);
-                    }
-                };
-
-                DeleteObjectNotificationRequest.Raise(new Confirmation
-                {
-                    Title = "Удаление",
-                    Content = $"Удалить \"{SelectedItem.ToString()}\"?"
-                },
-                callback); 
+                    DeleteItem(SelectedItem);
+                }
             }
         }
-
 
         protected virtual void AddItem(T item) { }
 

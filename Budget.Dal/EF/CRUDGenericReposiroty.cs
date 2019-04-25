@@ -24,7 +24,15 @@ namespace Budget.Dal.EF
         public void Delete(object id)
         {
             TEntity entity = set.Find(id);
-            Delete(entity);
+            if (entity != null)
+            {
+                Delete(entity);
+            }
+        }
+
+        public void Delete(TEntity entity)
+        {
+            set.Remove(entity);
         }
 
         public TEntity[] GetAll()

@@ -25,42 +25,16 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <ControlTemplate x:Key="objectDetailView">
+            <local:ObjectDetailView />
+        </ControlTemplate>
     </UserControl.Resources>
     
-    <i:Interaction.Triggers>
-        <prism:InteractionRequestTrigger
-            SourceObject="{Binding AddObjectNotificationRequest}">
-            <prism:PopupWindowAction
-                IsModal="True"
-                CenterOverAssociatedObject="True">
-                <prism:PopupWindowAction.WindowContent>
-                    <local:ObjectDetailView />
-                </prism:PopupWindowAction.WindowContent>
-            </prism:PopupWindowAction>
-        </prism:InteractionRequestTrigger>
-
-        <prism:InteractionRequestTrigger
-            SourceObject="{Binding EditObjectNotificationRequest}">
-            <prism:PopupWindowAction
-                IsModal="True"
-                CenterOverAssociatedObject="True">
-                <prism:PopupWindowAction.WindowContent>
-                    <local:ObjectDetailView />
-                </prism:PopupWindowAction.WindowContent>
-            </prism:PopupWindowAction>
-        </prism:InteractionRequestTrigger>
-
-        <prism:InteractionRequestTrigger
-            SourceObject="{Binding DeleteObjectNotificationRequest}">
-            <prism:PopupWindowAction
-                IsModal="True"
-                CenterOverAssociatedObject="True">
-                <prism:PopupWindowAction.WindowContent>
-                    <local:QuestionView />
-                </prism:PopupWindowAction.WindowContent>
-            </prism:PopupWindowAction>
-        </prism:InteractionRequestTrigger>
-    </i:Interaction.Triggers>
+    <i:Interaction.Behaviors>
+        <behaviors:DialogHostBehavior
+            DialogControlTemplate="{StaticResource objectDetailView}" />
+    </i:Interaction.Behaviors>
 
     <Grid>
         <Grid.RowDefinitions>
